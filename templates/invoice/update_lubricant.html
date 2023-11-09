@@ -1,0 +1,116 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Update Lubricant Expense{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="#">Lubricant</a></li>
+                            <li class="active">Update</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- error message -->
+{% if error %}
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>{{ error }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+{% endif %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Update Lubricant Expenses</strong>
+            </div>
+            <div class="card-body">
+                <!-- Credit Card -->
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="vehicle_no" class="control-label mb-1">Vehicle No</label>
+                                <select class="form-control" name="vehicle" id="vehicle" readonly required />
+                                <option value="{{ lubricant.vehicle.id }}">{{ lubricant.vehicle.vehicle_no }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="oil_type" class="control-label mb-1">Oil Type</label>
+                                <input class="form-control" type="text" name="oil_type" id="oil_type" value={{lubricant.oil_type}} readonly required />
+                            </div>
+                            <div class="form-group">
+                                <label for="supplier_name" class="control-label mb-1">Supplier Name</label>
+                                <input class="form-control" type="text" name="supplier_name" id="supplier_name" value={{lubricant.supplier_name}} readonly required />
+                            </div>
+                            <div class="form-group">
+                                <label for="bill_no" class="control-label mb-1">Bill No</label>
+                                <input class="form-control" type="text" name="bill_no" id="bill_no" value={{lubricant.bill_no}} required />
+                            </div>
+                            <div class="form-group">
+                                <label for="grade" class="control-label mb-1">Grade</label>
+                                <input class="form-control" type="text" name="grade" id="grade" value={{lubricant.grade}} readonly required />
+                            </div>
+                            <div class="form-group">
+                                <label for="quantity" class="control-label mb-1">Quantity (in Ltr's)</label>
+                                <input class="form-control" type="number" name="quantity" id="quantity"  step="0.01" value={{lubricant.quantity}} readonly required />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cost" class="control-label mb-1">Amount</label>
+                                <input class="form-control" type="number" name="cost" id="cost"  step="0.01" value={{lubricant.cost}} readonly required />
+                            </div>
+
+                            <div class="form-group" id="progressive_km">
+                                <label for="progressive_km" class="control-label mb-1">Previous Kms</label>
+                                <input class="form-control" type="number" name="previous_km" id="previous_km" value={{lubricant.previous_km}} readonly required />
+                            </div>
+                            <div class="form-group">
+                                <label for="actual_km" class="control-label mb-1">Progressive Kms</label>
+                                <input class="form-control" type="number" name="progressive_km" id="progressive_km" value={{lubricant.progressive_km}}  required />
+                            </div>
+                            <div class="form-group">
+                                <label for="date" class="control-label mb-1">Date</label>
+                                <input class="form-control" type="text" name="date" id="date" value={{lubricant.date|date:'Y-m-d'}} readonly required />
+                            </div>
+                            <div>
+                                <button id="payment-button" type="submit" class="btn btn-lg  btn-outline-primary btn-block">
+                                    <span id="payment-button-amount">Update</span>
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div> <!-- .card -->
+
+    </div>
+</div>
+{% endblock content %}

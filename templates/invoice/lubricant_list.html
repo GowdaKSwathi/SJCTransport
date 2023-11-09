@@ -1,0 +1,121 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Lubricant Expenses List{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div style="margin: 0px; padding: 0px;" class="col-s">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="calender">
+                                <div class="calender">
+                                    <input type="text" name="vehicle" id="vehicle" placeholder="KAXXMMXXXX">
+                                    <input type="month" name="month" id="month">
+                                    <input type="submit" name="submit" value="Search">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="invoice">
+        <div class="col-md-15">
+            <div id="invoice">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="box-title">Lubricant Expenses List</h4>
+                    </div>
+                    <div class="card-body--">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="shrink">#</th>
+                                    <th class="shrink">Vehicle Number</th>
+                                    <th class="shrink">Previous Km</th>
+                                    <th class="shrink">Progressive Km</th>
+                                    <th class="shrink">Actual Km</th>
+                                    <th class="shrink">KMPL</th>
+                                    <th class="shrink">Doeking Km</th>
+                                    <th class="shrink">Total Km</th>
+                                    <th class="shrink">Date</th>
+                                    <th class="shrink">Amount</th>
+                                    <th class="shrink">Actions</th>
+                                </tr>
+                            </thead>
+                            {% if oil %}
+                            {% for oil in oil %}
+                            <tbody>
+                                <tr>
+                                    <td class="serial">{{ forloop.counter }}</td>
+                                    <td><a href="{% url 'detail_lubricant' oil.id %}">{{ oil.vehicle.vehicle_no }}</a></td>
+                                    
+                                    <td>{{ oil.previous_km }}Km</td>
+                                    <td>{{ oil.progressive_km }}Km</td>
+                                    <td>{{ oil.actual_km }}Km</td>
+                                    <td>{{ oil.kmpl }}</td>
+                                    <td>{{ oil.doeking_km }} Km</td>
+                                    <td>{{ oil.total_km }} Km</td>
+                                    <td>{{ oil.date|date:'d-m-y' }}</td>
+                                    <td>{{ oil.cost }}</td>
+                                    <td>
+                                        <a style="color: blue;" href="{% url 'lubricant_edit' oil.id %}" class="fa fa-pencil-square-o"></a>|
+                                        <a style="color: red;" href="{% url 'lubricant_delete' oil.id %}" class="fa fa-trash"></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td colspan="12" class="text-center ">OOPS, Lubricant data not Found !</td>
+                            </tr>
+                            {% endif %}
+                        </table>
+                        {% if oil %}
+                        {% if amount %}
+                        <th>
+                            <div class="row ">
+                                <div class="col-lg-8">
+                                </div>
+                                <div class="col-4">
+                                    <table class="table table-lg text-right">
+                                        <tr>
+                                            <td><strong>Grand Total:</strong></td>
+                                            <td style="color: rgb(99, 26, 26); width: 100px;">{{amount}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </th>
+                        {% endif %}
+                        {% endif %}
+                    </div> <!-- /.table-stats -->
+                </div> <!-- /.card -->
+            </div> <!-- invoice -->
+        </div> <!-- /.col-lg-8 -->
+    </div>
+    <button class="btn" onclick="generatePDF()"><i class="fa fa-download"></i></button>
+</div>
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<script>
+    function generatePDF() {
+        var doc = new jsPDF('p', 'pt', 'a4');
+        doc.addHTML(document.getElementById('invoice'), function () {
+            doc.save('Lubricant Expenses List.pdf');
+        });
+    }
+</script>
+{% endblock scripts %}
+{% endblock content %}

@@ -1,0 +1,180 @@
+{% extends 'base/base.html' %}
+{% block title %}Document Details{% endblock title %}
+{% block css %}
+<style>
+    .card-body-- {
+        padding: 0px;
+        margin-top: auto;
+    }
+
+    .table-bordered td,
+    .table-bordered th {
+        border: 18px solid #dee2e6;
+    }
+
+    .table-bordered th {
+        width: fit-content;
+        max-width: 0px;
+        white-space: nowrap;
+    }
+</style>
+{% endblock css %}
+<!-- breadcrumbs -->
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="">Dashboard</a></li>
+                            <li><a href="">Document</a></li>
+                            <li class="active">Details</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+<!-- content -->
+{% block content %}
+<div class="container-fluid">
+    <div class="card" style="width: 100%;">
+        <div class="row">
+            <table class="table table-striped table-bordered">
+                <tbody>
+                    <tr>
+                        <th>1</th>
+                        <td style="font-weight: bold;">Vehicle Number</td>
+                        <td style="font-weight: bold;">{{ document.vehicle.vehicle_no }}</td>
+                    </tr>
+                    <tr>
+                        <th>2</th>
+                        <td>Tax Number</td>
+                        <td>{{ document.tax_no }}</td>
+                    </tr>
+                    <tr>
+                        <th>3</th>
+                        <td>Tax Amount</td>
+                        <td>{{ document.tax_amount }}</td>
+                    </tr>
+                    <tr>
+                        <th>4</th>
+                        <td>Tax From</td>
+                        <td>{{ document.tax_from }}</td>
+                    </tr>
+                    <tr>
+                        <th>5</th>
+                        <td>Tax To</td>
+                        <td>{{ document.tax_to }}</td>
+                    </tr>
+                    <!-- insurance -->
+                    <tr>
+                        <th>6</th>
+                        <td>Insurance Number</td>
+                        <td>{{ document.insurance_no }}</td>
+                    </tr>
+                    <tr>
+                        <th>7</th>
+                        <td>Insurance Company Name</td>
+                        <td>{{ document.company_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>8</th>
+                        <td>Insurance Amount</td>
+                        <td>{{ document.insurance_amount }}</td>
+                    </tr>
+                    <tr>
+                        <th>9</th>
+                        <td>Insurance From</td>
+                        <td>{{ document.insurance_from }}</td>
+                    </tr>
+                    <tr>
+                        <th>10</th>
+                        <td>Insurance To</td>
+                        <td>{{ document.insurance_to }} </td>
+                    </tr>
+                    <!-- FC -->
+                    <tr>
+                        <th>11</th>
+                        <td>FC Number</td>
+                        <td>{{ document.fc_no }} </td>
+                    </tr>
+                    <tr>
+                        <th>12</th>
+                        <td>FC Amount</td>
+                        <td>{{ document.fc_amount }}</td>
+                    </tr>
+                    <tr>
+                        <th>13</th>
+                        <td>FC From</td>
+                        <td>{{ document.fc_from }}</td>
+                    </tr>
+                    <tr>
+                        <th>14</th>
+                        <td>FC To</td>
+                        <td>{{ document.fc_to }}</td>
+                    </tr>
+                    <!-- permit -->
+                    <tr>
+                        <th>15</th>
+                        <td>Permit Number</td>
+                        <td>{{ document.permit_no }} </td>
+                    </tr>
+                    <tr>
+                        <th>16</th>
+                        <td>Permit Amount</td>
+                        <td>{{ document.permit_amount }}</td>
+                    </tr>
+                    <tr>
+                        <th>17</th>
+                        <td>Permit From</td>
+                        <td>{{ document.permit_from }}</td>
+                    </tr>
+                    <tr>
+                        <th>18</th>
+                        <td>Permit To</td>
+                        <td>{{ document.permit_to }}</td>
+                    </tr>
+                    <!-- Emssion -->
+                    <tr>
+                        <th>19</th>
+                        <td>Emission Number</td>
+                        <td>{{ document.emission_no }}</td>
+                    </tr>
+                    <tr>
+                        <th>20</th>
+                        <td>Emission Amount</td>
+                        <td>{{ document.emission_amount }}</td>
+                    </tr>
+                    <tr>
+                        <th>21</th>
+                        <td>Emission From</td>
+                        <td>{{ document.emission_from }}</td>
+                    </tr>
+                    <tr>
+                        <th>22</th>
+                        <td>Emission To</td>
+                        <td>{{ document.emission_to }}</td>
+                    </tr>
+                    <tr>
+                        <th>23</th>
+                        <td>Grand Total</td>
+                        <td>{{ document.total_amount }} Rs.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}

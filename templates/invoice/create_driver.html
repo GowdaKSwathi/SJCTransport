@@ -1,0 +1,119 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Create Driver{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="#">Driver</a></li>
+                            <li class="active">Create</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- error message -->
+{% if error %}
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>{{ error }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Create Driver</strong>
+            </div>
+            <div class="card-body">
+                <!-- Credit Card -->
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form action="" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="employee_id" class="control-label mb-1">Employee Id</label>
+                                {{ form.employee_id }}  {{ form.employee_id.errors}}
+                            </div>
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Driver Name</label>
+                                {{ form.name }}  {{ form.name.errors}}
+                            </div>
+                            <div class="form-group">
+                                <label for="phone" class="control-label mb-1">Phone Number</label>
+                                {{ form.phone }}  {{ form.phone.errors}}
+                            </div>
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Aadhar Number</label>
+                                {{ form.adhar }}  {{ form.adhar.errors}}
+                            </div>
+                            <div class="form-group">
+                                <label for="pan" class="control-label mb-1">Pan Number</label>
+                                {{ form.pan }}  {{ form.pan.errors}}
+                            </div>
+                            <div class="form-group">
+                                <label for="address" class="control-label mb-1">Address</label>
+                                {{ form.address }} {{ form.address.errors}}
+                            </div>
+                            <div class="form-group">
+                                <label for="dl_no" class="control-label mb-1">Driver License No</label>
+                                {{ form.dl_no }}  {{ form.dl_no.errors}}
+                            </div>
+                            <div class="form-group">
+                                <label for="dl_from" class="control-label mb-1">DL Start Date</label>
+                                {{ form.dl_from }} {{ form.dl_from.errors}}
+                            </div>
+                            <div class="form-group">
+                                <label for="dl_from" class="control-label mb-1">DL End Date</label>
+                                {{ form.dl_to }} {{ form.dl_to.errors}}
+                            </div>
+                            <div class="form-group">
+                                <label for="join_date" class="control-label mb-1">Joining Date</label>
+                                {{ form.join_date }} {{ form.join_date.errors}}
+                            </div>
+                            <div class="form-group">
+                                <label for="resign_date" class="control-label mb-1">Resign Date</label>
+                                {{ form.resign_date }}
+                            </div>
+                            <div class="form-group">
+                                <label for="document" class="control-label mb-1">Document</label>
+                            {{ form.document }} {{ form.document.errors}}
+                            </div>
+                            
+                            <div>
+                                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                                    <span id="payment-button-amount">Submit</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div> <!-- .card -->
+
+    </div><!--/.col-->
+</div>
+{% endblock content %}
+

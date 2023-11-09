@@ -1,0 +1,123 @@
+{% extends 'base/base.html' %}
+{% block title %} Logsheet View{%endblock title%}
+{% block css %}
+<style>
+  .table td,
+  .table th {
+    padding: 0.5rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+    background-color: darkgray
+  }
+</style>
+{% endblock css %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <div class="breadcrumbs-inner">
+    <div class="row m-0">
+      <div style="margin: 0px; padding: 0px;" class="col-s">
+        <div class="page-header float-left">
+          <div class="page-title">
+            <form action="" method="post">
+              {% csrf_token %}
+              <div class="calender">
+                <div class="calender">
+                  <input type="text" name="vehicle" id="vehicle" placeholder="KAXXMMXXXX">
+                  <input type="date" name="date" id="date">
+                  <input type="submit" name="submit" value="Search">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock breadcrumbs %}
+{% block content %}
+<div class="row" style="display: block;">
+  <div class="invoice">
+    <div class="col-lg-12">
+      {% if logs %}
+      {% for log in logs %}
+      <table class="table table-striped table-bordered table-sm ">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="row">ID</th>
+            <th style='font-weight: bold;'>Vehicle No</th>
+            <th>Doeking Kms</th>
+            <th>Total Kms</th>
+            <th>Daily Kms</th>
+            <th>Date</th>
+            <th colspan="3">Actions</th>
+          </tr>
+          <tr>
+            <td>{{log.id}}</td>
+            <td style='font-weight: bold;'>{{log.vehicle.vehicle_no}}</td>
+            <td>{{log.doeking_km}} kms</td>
+            <td>{{log.total_km}} kms</td>
+            <td>{{log.daily_km}} kms</td>
+            <td>{{log.date_time|date:'d-m-y'}}</td>
+            <td colspan="3">
+              <a style="color: blue;" href="{% url 'update_logsheet' log.id %}" class="fa fa-pencil-square-o"></a>|
+              <a style="color: red;" href="{% url 'delete_logsheet' log.id %}" class="fa fa-trash"></a>
+            </td>
+          </tr>
+          <tr>
+            <th rowspan="2">Trip No</th>
+            <th rowspan="2">Driver Name</th>
+            <th colspan="2">Distance</th>
+            <th colspan="2">Time</th>
+            <th rowspan="2">Source</th>
+            <th rowspan="2">Destination</th>
+          </tr>
+          <tr>
+            <th>From</th>
+            <th>To</th>
+            <th>From</th>
+            <th>To</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for logsheet in log.logsheets.all %}
+          <tr>
+            <td>{{logsheet.trip}}</td>
+            <td>{{logsheet.driver.name}}</td>
+            <td>{{logsheet.distance_from}}</td>
+            <td>{{logsheet.distance_to}}</td>
+            <td>{{logsheet.time_from|time:"H:i A"}}</td>
+            <td>{{logsheet.time_to|time:"H:i A"}}</td>
+            <td>{{logsheet.source}}</td>
+            <td>{{logsheet.destination}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endfor %}
+      {% else %}
+      <div>
+        <table>
+          <tr>
+            <td colspan="12" class="text-center ">OOPS ! Today Logsheet data not found</td>
+          </tr>
+        </table>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <button class="btn" onclick="generatePDF()"><i class="fa fa-download"></i></button>
+</div>
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<script>
+  function generatePDF() {
+    var doc = new jsPDF('p', 'pt', 'a4');
+    doc.addHTML(document.getElementById('invoice'), function () {
+      doc.save('Logsheet.pdf');
+    });
+  }
+</script>
+{% endblock scripts %}
+{% endblock content %}

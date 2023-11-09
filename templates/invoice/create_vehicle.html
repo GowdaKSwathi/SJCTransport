@@ -1,0 +1,146 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Create Vehicle{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="">Dashboard</a></li>
+                            <li><a href="">Vehicle</a></li>
+                            <li class="active">Add</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- error message -->
+{% if error %}
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>{{ error }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+{% endif %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Create Vehicle</strong>
+            </div>
+            <div class="card-body">
+                <!-- Credit Card -->
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form action="#" method="post" novalidate="novalidate">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="vehicle_no" class="control-label mb-1">Vehicle No</label>
+                                {{ form.vehicle_no }} {{ form.vehicle_no.errors}}
+                            </div>
+                            <div class="form-group">
+                                <label for="type" class="control-label mb-1">Type Of Vehicle</label>
+                                {{ form.type }} {{ form.type.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="fc_no" class="control-label mb-1">Registered Owner Name</label>
+                                {{ form.owner_name }} {{ form.owner_name.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="wheel_base" class="control-label mb-1">Wheel Base</label>
+                                {{ form.wheel_base }} {{ form.wheel_base.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="insurance_no" class="control-label mb-1">Engine No</label>
+                                {{ form.engine_no }} {{ form.engine_no.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="chasis_no" class="control-label mb-1">Chassis No</label>
+                                {{ form.chasis_no }} {{ form.chasis_no.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="body_type" class="control-label mb-1">Type Of Body</label>
+                                {{ form.body_type }} {{ form.body_type.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="fuel_type" class="control-label mb-1">Fuel Type</label>
+                                {{ form.fuel_type}} {{ form.fuel_type.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="fuel_capacity" class="control-label mb-1">Fuel Tank Capacity</label>
+                                {{ form.fuel_capacity}} {{ form.fuel_capacity.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="unloaden_weight" class="control-label mb-1">Make</label>
+                                {{ form.make}} {{ form.make.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="seating_capacity" class="control-label mb-1">Seating Capacity</label>
+                                {{ form.seating_capacity }} {{form.seating_capacity.errors}}
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="unloaden_weight" class="control-label mb-1">Unloaden Weight</label>
+                                {{ form.unloaden_weight}} {{ form.unloaden_weight.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="loaden_weight" class="control-label mb-1">Registered Loaden Weight</label>
+                                {{ form.loaden_weight}}
+                            </div>
+                            <div class="form-group">
+                                <label for="tyre_size" class="control-label mb-1">Tyre Size</label>
+                                {{ form.tyre_size}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="loaded_weight" class="control-label mb-1">Target KMPL</label>
+                                {{ form.target_kmpl}}
+                            </div>
+                            <div class="form-group">
+                                <label for="loaded_weight" class="control-label mb-1">Registration Date</label>
+                                {{ form.registration_date}}
+                            </div>
+                            <div>
+                                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                                    <span id="payment-button-amount">Submit</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

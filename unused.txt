@@ -1,0 +1,179 @@
+
+# # Unused code
+# @login_required(login_url="login")
+# @allowed_users(allowed_roles=["principal", "operator"])
+# def AmountPerVehicle(request):
+#     vehicle = Vehicle.objects.all()
+#     total_list = []
+#     all_vehicle_list = []
+#     for v in vehicle:
+#         all_vehicle_list.append(v.vehicle_no)
+#         # get total amount
+#         fuel = Fuel.objects.filter(vehicle=v)
+#         lubricant = Lubricant.objects.filter(vehicle=v)
+#         tyre = Tyre.objects.filter(vehicle=v)
+#         battery = Battery.objects.filter(vehicle=v)
+#         sparepart = SpareParts.objects.filter(spare__vehicle=v)
+#         # document = Document.objects.filter(vehicle=v)
+#         other = OtherExpense.objects.filter(other__vehicle=v)
+#         repair = Repair.objects.filter(vehicle=v)
+#         # Amount for all model
+#         fuel_amount = fuel.all().aggregate(Sum("amount"))["amount__sum"] or 0
+#         lubricant_amount = lubricant.all().aggregate(Sum("cost"))[
+#             "cost__sum"] or 0
+#         tyre_amount = tyre.all().aggregate(Sum("amount"))["amount__sum"] or 0
+#         battery_amount = battery.all().aggregate(
+#             Sum("amount"))["amount__sum"] or 0
+#         repair_amount = repair.all().aggregate(
+#             Sum("amount"))["amount__sum"] or 0
+#         sparepart_amount = sparepart.all().aggregate(
+#             Sum("amount"))["amount__sum"] or 0
+#         other_amount = other.all().aggregate(Sum("amount"))["amount__sum"] or 0
+#         # individual amount for document
+#         fc = document.all().aggregate(Sum("fc_amount"))["fc_amount__sum"] or 0
+#         insurance = document.all().aggregate(Sum("insurance_amount"))[
+#             "insurance_amount__sum"] or 0
+#         permit = document.all().aggregate(Sum("permit_amount"))[
+#             "permit_amount__sum"] or 0
+#         emission = document.all().aggregate(Sum("emission_amount"))[
+#             "emission_amount__sum"] or 0
+#         tax = document.all().aggregate(Sum("tax_amount"))[
+#             "tax_amount__sum"] or 0
+#         # total amount for document
+#         document_total_amount = fc + insurance + permit + emission + tax
+#         # total amount
+#         total = (fuel_amount + tyre_amount + battery_amount + sparepart_amount +
+#                  other_amount + document_total_amount + repair_amount + lubricant_amount)
+#         # total decimal
+#         total = round(total, 2)
+#         total_list.append(total)
+#         a = total_list
+#         b = all_vehicle_list
+#         c = zip(a, b)
+#     return render(request, "principal/report.html", {"room_name": "broadcast", "c": c},)
+
+
+# @login_required(login_url="login")
+# @allowed_users(allowed_roles=["principal", "operator"])
+# def vehicle_report(request):
+#     method = request.method.lower()
+#     if(method == "get"):
+#         return render(request, "invoice/vehicle_report.html", {"room_name": "broadcast", })
+#     elif method == "post":
+#         data = request.POST
+#         vehicle_no = data.get("vehicle_no", None)
+#         month = data.get("month", None)
+#         month = int(month)
+#         # Have to modify to get date
+#         vehicle_obj = get_object_or_404(Vehicle, vehicle_no=vehicle_no)
+#         fuel_objs = Fuel.objects.filter(vehicle=vehicle_obj, date__month=month)
+#         tyre_objs = Tyre.objects.filter(
+#             vehicle=vehicle_obj, fitted_date__month=month)
+#         lubricant_objs = Lubricant.objects.filter(
+#             vehicle=vehicle_obj, date__month=month)
+#         battery_objs = Battery.objects.filter(
+#             vehicle=vehicle_obj, fitted_date__month=month)
+
+#         logsheet_objs = Logsheet.objects.filter(
+#             log__vehicle=vehicle_obj, log__date_time__month=month).order_by("-log__date_time")
+
+#         logsheet_objs = logsheet_objs.order_by("time_from")
+
+#         logsheet_dict = OrderedDict({
+
+#         })
+
+#         for logsheet in logsheet_objs:
+#             import datetime
+#             date = logsheet.log.date_time
+#             date = datetime.datetime.strftime(date, "%b/%d/%y")
+#             # .strftime(
+#             logsheet_dict.setdefault(date, [])
+#             logsheet_dict[date].append(logsheet)
+
+#         return render(request, "invoice/vehicle_report.html", {'fuel_objs': fuel_objs, 'tyre_objs': tyre_objs, 'lubricant_objs': lubricant_objs, 'logsheet_objs': logsheet_dict, 'battery_objs': battery_objs, "room_name": "broadcast", })
+
+#     return render(request, "invoice/vehicle_report.html", {"room_name": "broadcast", })
+
+
+
+
+----------------------------------
+
+@login_required(login_url="login")
+@allowed_users(allowed_roles=["operator"])
+def full_details(request):
+    # log = Log.objects.all()
+    # fuel = Fuel.objects.all()
+    # lubricant = Lubricant.objects.all()
+    # tyre = Tyre.objects.all()
+    # battery = Battery.objects.all()
+    # tax = Tax.objects.all()
+    # insurance = Insurance.objects.all()
+    # fitness = Fitness.objects.all()
+    # permit = Permit.objects.all()
+    # emission = Emission.objects.all()
+    # repair = Repair.objects.all()
+    # spare = Spare.objects.all()
+    # other = Other.objects.all()
+    # scrap = Scrap.objects.all()
+    # student = Student.objects.all()
+    # if request.method == "POST":
+    #     vehicle = request.POST.get("vehicle")
+    #     month = request.POST.get("month")
+    #     year = request.POST.get("year")
+    #     if vehicle and month and year:
+    #         log = log.filter(vehicle=vehicle, date_time__month=month, date_time__year=year)
+    #         fuel = fuel.filter(vehicle=vehicle, date__month=month, date__year=year)
+    #         lubricant = lubricant.filter(vehicle=vehicle, date__month=month, date__year=year)
+    #         tyre = tyre.filter(vehicle=vehicle, fitted_date__month=month, fitted_date__year=year)
+    #         battery = battery.filter(vehicle=vehicle, fitted_date__month=month, fitted_date__year=year)
+    #         tax = tax.filter(vehicle=vehicle, tax_from__month=month, tax_from__year=year)
+    #         insurance = insurance.filter(vehicle=vehicle, insurance_from__month=month, insurance_from__year=year)
+    #         fitness = fitness.filter(vehicle=vehicle, fc_from__month=month, fc_from__year=year)
+    #         permit = permit.filter(vehicle=vehicle, permit_from__month=month, permit_from__year=year)
+    #         emission = emission.filter(vehicle=vehicle, emission_from__month=month, emission_from__year=year)
+    #         repair = repair.filter(vehicle=vehicle, date__month=month, date__year=year)
+    #         spare = spare.filter(vehicle=vehicle, date__month=month, date__year=year)
+    #         other = other.filter(vehicle=vehicle, date__month=month, date__year=year)
+    #         scrap = scrap.filter(vehicle=vehicle, date__month=month, date__year=year)
+    #         student = student.filter(vehicle=vehicle, enroll_date__month=month, enroll_date__year=year)
+    #         # total expenses for a vehicle from each model
+    #         fuel_amount = fuel.all().aggregate(Sum("amount"))["amount__sum"] or 0
+    #         lubricant_amount = lubricant.all().aggregate(Sum("cost"))["cost__sum"] or 0
+    #         tyre_amount = tyre.all().aggregate(Sum("amount"))["amount__sum"] or 0
+    #         battery_amount = battery.all().aggregate(Sum("amount"))["amount__sum"] or 0
+    #         tax_amount = tax.all().aggregate(Sum("tax_amount"))["tax_amount__sum"] or 0
+    #         insurance_amount = insurance.all().aggregate(Sum("insurance_amount"))["insurance_amount__sum"] or 0
+    #         fitness_amount = fitness.all().aggregate(Sum("fc_amount"))["fc_amount__sum"] or 0
+    #         permit_amount = permit.all().aggregate(Sum("permit_amount"))["permit_amount__sum"] or 0
+    #         context = {
+    #             'fuel': fuel,
+    #             'lubricant': lubricant,
+    #             'tyre': tyre,
+    #             'battery': battery,
+    #             'tax': tax,
+    #             'insurance': insurance,
+    #             'fitness': fitness,
+    #             'permit': permit,
+    #             'emission': emission,
+    #             'repair': repair,
+    #             'spare': spare,
+    #             'other': other,
+    #             'scrap': scrap,
+    #             'student': student,
+    #             # amount
+    #             'fuel_amount': fuel_amount,
+    #             'lubricant_amount': lubricant_amount,
+    #             'tyre_amount': tyre_amount,
+    #             'battery_amount': battery_amount,
+    #             'tax_amount': tax_amount,
+    #             'insurance_amount': insurance_amount,
+    #             'fitness_amount': fitness_amount,
+    #             'permit_amount': permit_amount,
+    #             'room_name': "broadcast",
+    #         }
+    #         return render(request, "invoice/full_details.html", context)
+    #     else:
+    #         return redirect("full_details")
+    # return render(request, "invoice/full_details.html", )

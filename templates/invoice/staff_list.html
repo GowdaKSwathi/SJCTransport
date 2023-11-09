@@ -1,0 +1,158 @@
+{% extends 'base/base.html' %}
+{% block title %}Staff List{% endblock title %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div style="margin: 0px; padding: 0px;" class="col-s">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="calender">
+                                <input type="text" name="employee_id" id="employee_id" placeholder="Employee Id..">
+                                <input type="submit" name="submit" value="Search">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="stat-widget-five">
+                    <div class="stat-icon dib flat-color-1">
+                        <i class="fa fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="text-left dib">
+                            <div class="stat-text">
+                                <span class="count">{{ total }}</span>
+                            </div>
+                            <div class="stat-heading">Total Staff</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="stat-widget-five">
+                    <div class="stat-icon dib flat-color-2">
+                        <i class="fa fa-user-plus"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="text-left dib">
+                            <div class="stat-text"><span class="count">{{ office_staff }}</span></div>
+                            <div class="stat-heading">Office Staff</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="stat-widget-five">
+                    <div class="stat-icon dib flat-color-3">
+                        <i class="fa fa-blind"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="text-left dib">
+                            <div class="stat-text">
+                                <span class="count">{{ helper }}</span>
+                            </div>
+                            <div class="stat-heading">Helper</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="stat-widget-five">
+                    <div class="stat-icon dib flat-color-4">
+                        <i class="fa fa-wheelchair-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="text-left dib">
+                            <div class="stat-text">
+                                <span class="count">{{mechanic}}</span>
+                            </div>
+                            <div class="stat-heading">Mechanic</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<!-- new -->
+<div class="row">
+    <div class="col-xl-12">
+        <div id="invoice">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="box-title">Staff List</h4>
+                </div>
+                <div class="card-body--">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="shrink">#</th>
+                                <th class="shrink">Employee Id</th>
+                                <th class="shrink">Staff Name</th>
+                                <th class="shrink">Designation</th>
+                                <th class="shrink">Phone Number</th>
+                                <th class="shrink">Aadhar Number</th>
+                                <th class="shrink">Joining Date</th>
+                                <th class="shrink">Resign Date</th>
+                                <th class="shrink">Actions</th>
+                            </tr>
+                        </thead>
+                        {% if staff %}
+                        {% for staff in staff %}
+                        <tbody>
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'detail_staff' staff.id %}">{{staff.employee_id }}</a></td>
+                                <td>{{staff.name }}</td>
+                                <td>{{ staff.designation }}</td>
+                                <td>{{ staff.phone }}</td>
+                                <td>{{ staff.adhar }}</td>
+                                <td>{{ staff.join_date|date:'d-m-y' }}</td>
+                                <td>{{ staff.resign_date|date:'d-m-y' }}</td>
+                                <td>
+                                    <a style="color: blue;"  href="{% url 'staff_edit' staff.id %}" class="fa fa-pencil-square-o"></a>
+                                    |<a style="color: red;" href="{% url 'staff_delete' staff.id %}" class="fa fa-trash"></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="12" class="text-center ">OOPS! Staff data not Found</td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                </div> <!-- /.table-stats -->
+            </div> <!-- /.card -->
+        </div> <!-- invoice -->
+    </div> <!-- /.col-lg-8 -->
+</div>
+{% endblock content %}

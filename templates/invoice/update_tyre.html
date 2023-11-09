@@ -1,0 +1,170 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Create Tyres Expenses{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="#">Tyre</a></li>
+                            <li class="active">Create</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- error message -->
+{% if error %}
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>{{ error }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+{% endif %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Create Tyres Expenses</strong>
+            </div>
+            <div class="card-body">
+                <!-- Credit Card -->
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form action="" enctype="multipart/form-data" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="vehicle_no" class="control-label mb-1">Vehicle No</label>
+                                <select class="form-control" name="vehicle" id="vehicle" readonly required />
+                                <option value="{{ tyre.vehicle.id }}">{{ tyre.vehicle.vehicle_no }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="version" class="control-label mb-1">Tyre Version</label>
+                                <input id="version" name="version" type="text" class="form-control"
+                                    value="{{ tyre.version }}" readonly required />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="position" class="control-label mb-1">Type Position</label>
+                                <input id="position" name="position" type="text" class="form-control"
+                                    value="{{ tyre.position }}" readonly required />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="tyre_no" class="control-label mb-1">Tyre No</label>
+                                <input id="tyre_no" name="tyre_no" type="text" class="form-control"
+                                    value="{{ tyre.tyre_no }}" readonly required />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="rebelt_no" class="control-label mb-1">Rebelt No</label>
+                                <input id="rebelt_no" name="rebelt_no" type="text" class="form-control"
+                                    value="{{ tyre.rebelt_no }}" readonly required />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="tyre_type" class="control-label mb-1">Tyre Type</label>
+                                <input id="tyre_type" name="tyre_type" type="text" class="form-control"
+                                    value="{{ tyre.tyre_type }}" readonly required />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="make" class="control-label mb-1">Make</label>
+                                <input id="make" name="make" type="text" class="form-control" value="{{ tyre.make }}"
+                                    readonly required />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="size" class="control-label mb-1">Size</label>
+                                <input id="size" name="size" type="text" class="form-control" value="{{ tyre.size }}"
+                                    readonly required />
+                            </div>
+                            <div class="form-group">
+                                <label for="bill_no" class="control-label mb-1">Bill No</label>
+                                <input id="bill_no" name="bill_no" type="text" class="form-control"
+                                    value="{{ tyre.bill_no }}" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="vendor_name" class="control-label mb-1">Vendor Name</label>
+                                <input id="vendor_name" name="vendor_name" type="text" class="form-control"
+                                    value="{{ tyre.vendor_name }}" readonly required />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="amount" class="control-label mb-1">Amount</label>
+                                <input id="amount" name="amount" type="text" class="form-control"
+                                    value="{{ tyre.amount }}" readonly required />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cause_of_removal" class="control-label mb-1">Cause of removal</label>
+                                <textarea style="height: 93px;" name="cause_of_removal" class="form-control"
+                                    id="cause_of_removal" cols="10" rows="10"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="scrap" class="control-label mb-1">Scrap</label>
+                                <input id="scrap" name="scrap" type="text" class="form-control" value="{{ tyre.scrap }}"
+                                    readonly required />
+                            </div>
+                            <div class="form-group">
+                                <label for="fitted_km" class="control-label mb-1">Fitted Kms</label>
+                                <input id="fitted_km" name="fitted_km" type="text" class="form-control"
+                                    value="{{ tyre.fitted_km }}" readonly required />
+                            </div>
+                            <div class="form-group">
+                                <label for="fitted_date" class="control-label mb-1">Fitted date</label>
+                                <input id="fitted_date" name="fitted_date" type="text" class="form-control"
+                                    value="{{ tyre.fitted_date|date:'Y-m-d' }}" readonly required />
+                            </div>
+                            <div class="form-group">
+                                <label for="removal_km" class="control-label mb-1">Removal Kms</label>
+                                <input id="removal_km" name="removal_km" type="text" class="form-control"
+                                    value="{{ tyre.removal_km }}" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="removal_date" class="control-label mb-1">Removal Date</label>
+                                <input id="removal_date" name="removal_date" type="date" class="form-control"
+                                    value="{{ tyre.removal_date|date:'Y-m-d' }}" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="document" class="control-label mb-1">Document</label>
+                                <input id="document" name="document" type="file" class="form-control"
+                                    value="{{ tyre.document }}" disabled />
+                            </div>
+                            <div>
+                                <button id="payment-button" type="submit"
+                                    class="btn btn-lg  btn-outline-primary btn-block">
+                                    <span id="payment-button-amount">Update</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

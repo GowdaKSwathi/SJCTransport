@@ -1,0 +1,131 @@
+{% extends 'base/base.html' %}
+{% block title %}Lubricant Details{% endblock title %}
+{% block css %}
+<style>
+    .card-body-- {
+        padding: 0px;
+        margin-top: auto;
+    }
+
+    .table-bordered td,
+    .table-bordered th {
+        border: 18px solid #dee2e6;
+    }
+
+    .table-bordered th {
+        width: fit-content;
+        max-width: 0px;
+        white-space: nowrap;
+    }
+</style>
+{% endblock css %}
+<!-- breadcrumbs -->
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="">Dashboard</a></li>
+                            <li><a href="">Lubricant</a></li>
+                            <li class="active">Details</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+<!-- content -->
+{% block content %}
+<div class="container-fluid">
+    <div class="card" style="width: 100%;">
+        <div class="row">
+            <table class="table table-striped table-bordered">
+                <tbody>
+                    <tr>
+                        <th>1</th>
+                        <td style='font-weight: bold;'>Vehicle Number</td>
+                        <td style='font-weight: bold;'>{{ oil.vehicle.vehicle_no }}</td>
+                    </tr>
+                    <tr>
+                        <th>2</th>
+                        <td>Oil Type</td>
+                        <td>{{ oil.oil_type }}</td>
+                    </tr>
+                    <tr>
+                        <th>3</th>
+                        <td>Supplier Name</td>
+                        <td>{{ oil.supplier_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>4</th>
+                        <td>Bill Number</td>
+                        <td>{{ oil.bill_no }}</td>
+                    </tr>
+                    <tr>
+                        <th>5</th>
+                        <td>Grade</td>
+                        <td>{{ oil.grade }}</td>
+                    </tr>
+                    <tr>
+                        <th>6</th>
+                        <td>Quantity</td>
+                        <td>{{ oil.quantity }}</td>
+                    </tr>
+                    <tr>
+                        <th>7</th>
+                        <td>Amount</td>
+                        <td>{{ oil.cost }}</td>
+                    </tr>
+                    <tr>
+                        <th>8</th>
+                        <td>Previous kms</td>
+                        <td>{{ oil.previous_km }} kms</td>
+                    </tr>
+                    <tr>
+                        <th>9</th>
+                        <td>Progressive kms</td>
+                        <td>{{ oil.progressive_km }} kms</td>
+                    </tr>
+                    <tr>
+                        <th>10</th>
+                        <td>Actual Km</td>
+                        <td>{{ oil.actual_km }} kms</td>
+                    </tr>
+                    <tr>
+                        <th>11</th>
+                        <td>KMPL</td>
+                        <td>{{ oil.kmpl }} kms</td>
+                    </tr>
+                    <tr>
+                        <th>12</th>
+                        <td>Doeking km</td>
+                        <td>{{ oil.doeking_km }} kms</td>
+                    </tr>
+                    <tr>
+                        <th>13</th>
+                        <td>Total Km</td>
+                        <td>{{ oil.total_km }} kms</td>
+                    </tr>
+                    <tr>
+                        <th>14</th>
+                        <td>Date</td>
+                        <td>{{ oil.date|date:'d-m-y' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}

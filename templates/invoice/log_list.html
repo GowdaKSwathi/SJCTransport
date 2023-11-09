@@ -1,0 +1,100 @@
+{% extends 'base/base.html' %}
+{% block title %} Create Spare Expenses{%endblock title%}
+{% block css %}
+<style>
+    .table td,
+    .table th {
+        padding: 0.5rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+        background-color: darkgray
+    }
+</style>
+{% endblock css %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="#">Logsheet</a></li>
+                            <li class="active">View</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %} {% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        {% if data %}
+        {% for log,total in data %}
+        <table class="table table-striped table-bordered table-sm ">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Vehicle No</th>
+                    <th>Driver Name</th>
+                    <th>Doeking Kms</th>
+                    <th colspan="3">Date</th>
+                    <th colspan="3">Actions</th>
+                </tr>
+                <tr>
+                    <td>{{log.vehicle.vehicle_no}}</td>
+                    <td>{{log.driver.name}}</td>
+                    <td>{{log.daily_km}} kms</td>
+                    <td colspan="3">{{log.date}}</td>
+                    <td><button disabled="disabled">add</button></td>                    
+                </tr>
+                <tr>
+                    <th rowspan="2">Trip No</th>
+                    <th colspan="2">Distance</th>
+                    <th colspan="2">Time</th>
+                    <th rowspan="2">Source</th>
+                    <th rowspan="2">Destination</th>
+                </tr>
+                <tr>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>From</th>
+                    <th>To</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for logsheet in log.logsheets.all %}
+                <tr>
+                    <td>{{logsheet.trip}}</td>
+                    <td>{{logsheet.distance_from}}</td>
+                    <td>{{logsheet.distance_to}}</td>
+                    <td>{{logsheet.time_from}}</td>
+                    <td>{{logsheet.time_to}}</td>
+                    <td>{{logsheet.source}}</td>
+                    <td>{{logsheet.destination}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endfor %}
+        {% else %}
+        <div>
+            <table>
+                <tr>
+                    <td colspan="12" class="text-center ">OOPS ! Today Logsheet data not found</td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

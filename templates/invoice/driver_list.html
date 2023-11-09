@@ -1,0 +1,80 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Driver List{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div style="margin: 0px; padding: 0px;" class="col-s">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="calender">
+                                <input type="text" name="employee_id" id="employee_id" placeholder="Employee Id..">
+                                <input type="submit" name="submit" value="Search">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+{% block content %}
+<div class="row">
+    <div class="col-md-15">
+        <div id="invoice">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="box-title">Driver List</h4>
+                </div>
+                <div class="card-body--">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th class="shrink">Employee Id</th>
+                                <th class="shrink">Driver Name</th>
+                                <th class="shrink">Phone Number</th>
+                                <th class="shrink">Aadhar Number</th>
+                                <th class="shrink">Driving License</th>
+                                <th class="shrink">DL Start Date</th>
+                                <th class="shrink">DL End Date</th>
+                                <th class="shrink">Actions</th>
+                            </tr>
+                        </thead>
+                        {% if driver %}
+                        {% for driver in driver %}
+                        <tbody>
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td><a href="{% url 'detail_driver' driver.id %}">{{driver.employee_id}}</a></td>
+                                <td>{{driver.name }}</a></td>
+                                <td>{{ driver.phone }}</td>
+                                <td>{{ driver.adhar }}</td>
+                                <td>{{ driver.dl_no }}</td>
+                                <td>{{ driver.dl_from|date:'m-d-y' }}</td>
+                                <td>{{ driver.dl_to|date:'m-d-y'}}</td>
+
+                                <td>
+                                    <a style="color: blue;"  href="{% url 'driver_edit' driver.id %}" class="fa fa-pencil-square-o"></a>
+                                    |<a style="color: red;" href="{% url 'driver_delete' driver.id %}" class="fa fa-trash"></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="12" class="text-center ">OOPS! Driver data not Found !</td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                </div> <!-- /.table-stats -->
+            </div> <!-- /.card -->
+        </div> <!-- invoice -->
+    </div> <!-- /.col-lg-8 -->
+</div>
+{% endblock content %}

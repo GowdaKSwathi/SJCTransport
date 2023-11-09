@@ -1,0 +1,64 @@
+{% load static %}
+
+<header id="header" class="header">
+    <div class="top-left">
+        <div class="navbar-header">
+            <a class="navbar-brand" href=""><img src="{% static 'images/logo_1.png' %}" alt="Logo"></a>
+            <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
+        </div>
+    </div>
+    <div class="top-right">
+        <div class="header-menu">
+            <div class="header-left">
+                <button class="search-trigger"><i class="fa fa-search"></i></button>
+                <div class="form-inline">
+                    <form class="search-form">
+                        <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
+                        <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
+                    </form>
+                </div>
+                <!-- notification menu -->
+                <div class="dropdown for-notification">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="notification"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-bell"></i>
+                        <span class="count bg-danger" id="notification-badge">0</span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown" id="notifications-dropdown"
+                        data-popper-placement="bottom-end" style="color: black;">
+                        {% for i in notifications %}
+                        <li class="dropdown-item" style="font-weight: bold; color: rgb(236, 138, 138);">{{i.message}}</li>
+                        <hr class="dropdown-divider">
+                        {% endfor %}
+
+                </div>
+            </div>
+            <!-- end menu notification -->
+            {% if request.user.is_authenticated %}
+            {% if request.user.is_superuser %}
+            <div class="user-area dropdown float-right">
+                <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    <img class="user-avatar rounded-circle" src="{{request.user.profile.image.url}}" alt="User Avatar">
+                </a>
+                <div class="user-menu dropdown-menu">
+                    <a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-power -off"></i>Logout</a>
+                </div>
+            </div>
+            {% else %}
+            <div class="user-area dropdown float-right">
+                <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    <img class="user-avatar rounded-circle" src="{{request.user.profile.image.url}}" alt="User Avatar">
+                </a>
+                <div class="user-menu dropdown-menu">
+                    <a class="nav-link" href=""><i class="fa fa- user"></i>My Profile</a>
+                    <a class="nav-link" href="{% url 'settings' %}"><i class="fa fa -cog"></i>Settings</a>
+                    <a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-power -off"></i>Logout</a>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</header>

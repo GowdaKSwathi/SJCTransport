@@ -1,0 +1,126 @@
+{% extends 'base/base.html' %}
+{% block title %}Fuel Details{% endblock title %}
+{% block css %}
+<style>
+    .card-body-- {
+        padding: 0px;
+        margin-top: auto;
+    }
+
+    .table-bordered td,
+    .table-bordered th {
+        border: 18px solid #dee2e6;
+    }
+
+    .table-bordered th {
+        width: fit-content;
+        max-width: 0px;
+        white-space: nowrap;
+    }
+</style>
+{% endblock css %}
+<!-- breadcrumbs -->
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="">Dashboard</a></li>
+                            <li><a href="">Fuel</a></li>
+                            <li class="active">Details</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+<!-- content -->
+{% block content %}
+<div class="container-fluid">
+    <div class="card" style="width: 100%;">
+        <div class="row">
+            <table class="table table-striped table-bordered">
+                <tbody>
+                    <tr>
+                        <th>1</th>
+                        <td style='font-weight: bold;'>Vehicle Number</td>
+                        <td style='font-weight: bold;'>{{ fuel.vehicle.vehicle_no }}</td>
+                    </tr>
+                    <tr>
+                        <th>2</th>
+                        <td>Fuel Type</td>
+                        <td>{{ fuel.fuel_type }}</td>
+                    </tr>
+                    <tr>
+                        <th>3</th>
+                        <td>Vendor Name</td>
+                        <td>{{ fuel.vendor_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>4</th>
+                        <td>Indent Number</td>
+                        <td>{{ fuel.indent_no }}</td>
+                    </tr>
+                    <tr>
+                        <th>5</th>
+                        <td>Bill Number</td>
+                        <td>{{ fuel.bill_no }}</td>
+                    </tr>
+                    <tr>
+                        <th>6</th>
+                        <td>Amount</td>
+                        <td>{{ fuel.amount }}</td>
+                    </tr>
+                    <tr>
+                        <th>7</th>
+                        <td>Previous Km</td>
+                        <td>{{ fuel.previous_km }} kms</td>
+                    </tr>
+                    <tr>
+                        <th>8</th>
+                        <td>Progressive Km</td>
+                        <td>{{ fuel.progressive_km }} Kms</td>
+                    </tr>
+                    <tr>
+                        <th>9</th>
+                        <td>Quantity</td>
+                        <td>{{ fuel.quantity }}</td>
+                    </tr>
+                    <tr>
+                        <th>10</th>
+                        <td>Actual Km</td>
+                        <td>{{ fuel.actual_km }}</td>
+                    </tr>
+                    <tr>
+                        <th>11</th>
+                        <td>KMPL</td>
+                        <td>{{ fuel.kmpl }}</td>
+                    </tr>
+                    <tr>
+                        <th>12</th>
+                        <td>Total Km</td>
+                        <td>{{ fuel.total_km }}</td>
+                    </tr>
+                    <tr>
+                        <th>13</th>
+                        <td>Date</td>
+                        <td>{{ fuel.date|date:'d-m-y' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}

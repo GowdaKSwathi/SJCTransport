@@ -1,0 +1,706 @@
+{% extends 'base/base.html' %} {%block title %}Year Report {% endblock title %}
+{%block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="">Dashboard</a></li>
+                            <li><a href="">Report</a></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- error message -->
+{% if error %}
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>{{ error }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+{% endif %}
+
+<!-- sadf -->
+{% endblock breadcrumbs %}
+
+<!-- asdf -->
+{% block content %}
+<form action="" method="POST">
+    {%csrf_token%}
+    <div class="container" style="display: flex; align-items: end">
+        <div>
+            <label for="vehicle_no">Vehicle No</label>
+            <input type="text" class="form-control" id="vehicle" name="vehicle" required />
+        </div>
+        <div style="margin-left: 1em">
+            <label for="exampleFormControlSelect1">Select Month</label>
+            <select class="form-control" id="month" name="month">
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+            </select>
+        </div>
+
+        <div style="margin-left: 1em">
+            <label for="year">Select Year</label>
+            <select class="form-control" id="year" name="year">
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+                <option value="2029">2029</option>
+                <option value="2030">2030</option>
+            </select>
+        </div>
+        <div class="btn-container" style="margin-left: 1em">
+            <button type="submit" class="btn btn-outline-success">Search</button>
+        </div>
+    </div>
+</form>
+
+<div class="logsheet-container" style="background: white; padding: 1em; margin-top: 1em">
+    <div>
+        <h5 style="font-weight: 505; text-align: center; color: burlywood;">{{vehicle}}</h5>
+    </div> 
+</div>
+
+<div class="invoice" id="pdf">
+    <div class="container" style="background: white; padding: 1em; margin-top: 0.8em">
+       
+        <!-- logsheet  -->
+        <div class="table-container">
+            <div class="flex-box" style="display: flex; justify-content: space-between">
+                <h5 style="font-weight: 505; margin: 0.4em 0em">Logsheet Details</h5>
+                <button class="btn btn-secondry btn-sm"><a href="{% url 'logsheet_list' %}">Button</a></button>
+            </div>
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Total Trip No</th>
+                        <th scope="col">Daily Km</th>
+                        <th scope="col">Doeking Km</th>
+                        <th scope="col">Total KM</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if log %}
+                    {%for entry in log%}
+                    <tr>
+                        <td scope="col">{{entry.date_time|date:'d-m-y'}}</td>
+                        <td scope="col">{{entry.total_trip}}</td>
+                        <td scope="col">{{entry.daily_km}}</td>
+                        <td scope="col">{{entry.doeking_km}}</td>
+                        <td scope="col">{{entry.total_km}}</td>
+                    </tr>
+                    {%endfor%}
+                    {%else%}
+                    <tr>
+                        <td colspan="3">No Records Found</td>
+                    </tr>
+                    {%endif%}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-container">
+            <div class="flex-box" style="display: flex; justify-content: space-between">
+                <h5 style="font-weight: 505; margin: 0.4em 0em">Fuel Details</h5>
+                <button class="btn btn-secondry btn-sm"><a href="{% url 'fuel_list' %}">Button</a></button>
+            </div>
+
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Bill No</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Actual Km</th>
+                        <th scope="col">Total KM</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%if fuel%} 
+                    {% for fuel in fuel%}
+                    <tr>
+                        <th scope="row">{{fuel.date}}</th>
+                        <td>{{fuel.bill_no}}</td>
+                        <td>{{fuel.quantity}}</td>
+                        <td>{{fuel.actual_km}}</td>
+                        <td>{{fuel.total_km}}</td>
+                        <td>{{fuel.amount}}</td>
+                    </tr>
+                    {% endfor %}
+                    <th colspan="4">
+                    <td style="color: brown;">Grand Total</td>
+                    <td>{{fuel_amount}}</td>
+                    </th>
+                    {%else%}
+                    <tr class="container">
+                        <td colspan="3">No Records Found</td>
+                    </tr>
+                    {%endif%}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- lubricant -->
+        <div class="table-container" style="margin-top: 1em">
+            <div class="flex-box" style="display: flex; justify-content: space-between">
+                <h5 style="font-weight: 505; margin: 0.4em 0em">Lubricant Details</h5>
+                <button class="btn btn-secondry btn-sm"><a href="{% url 'lubricant_list' %}">Button</a></button>
+            </div>
+
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Actual Km</th>
+                        <th scope="col">Doeking KM</th>
+                        <th scope="col">Total KM</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {%if lubricant %} 
+                    {% for lubricant in lubricant%}
+                    <tr>
+                        <td>{{lubricant.date}}</td>
+                        <td>{{lubricant.quantity}}</td>
+                        <td>{{lubricant.actual_km}}</td>
+                        <td>{{lubricant.doeking_km}}</td>
+                        <td>{{lubricant.total_km}}</td>
+                        <td>{{lubricant.cost}}</td>
+                    </tr>
+                    {%endfor%}
+                    <th colspan="4">
+                    <td style="color: brown;">Grand Total</td>
+                    <td>{{lubricant_amount}}</td>
+                    </th>
+                    {%else%}
+                    <tr class="container">
+                        <td colspan="3">No Records Found</td>
+                    </tr>
+                    {%endif%}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- tyre  -->
+        <div class="table-container" style="margin-top: 1em">
+            <div class="flex-box" style="display: flex; justify-content: space-between">
+                <h5 style="font-weight: 505; margin: 0.4em 0em">Tyre Details</h5>
+                <button class="btn btn-secondry btn-sm"><a href="{% url 'tyre_list' %}">Button</a></button>
+            </div>
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Bill No</th>
+                        <th scope="col">Tyre No</th>
+                        <th scope="col">Version</th>
+                        <th scope="col">Total KM</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%if tyre%} 
+                    {%for tyre in tyre%}
+                    <tr>
+                        <td>{{tyre.fitted_date}}</td>
+                        <td>{{tyre.bill_no}}</td>
+                        <td>{{tyre.tyre_no}}</td>
+                        <td>{{tyre.version}}</td>
+                        <td>{{tyre.actual_km}}</td>
+                        <td>{{tyre.amount}}</td>
+                    </tr>
+                    {%endfor%}
+                    <th colspan="4">
+                    <td style="color: brown;">Grand Total</td>
+                    <td>{{tyre_amount}}</td>
+                    </th>
+                    {%else%}
+                    <tr class="container">
+                        <td colspan="3">No Records Found</td>
+                    </tr>
+                    {%endif%}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- battery -->
+        <div class="table-container" style="margin-top: 1.5em">
+            <div class="flex-box" style="display: flex; justify-content: space-between">
+                <h5 style="font-weight: 505; margin: 0.4em 0em">Battery Details</h5>
+                <button class="btn btn-secondry btn-sm"><a href="{% url 'battery_list' %}">Button</a></button>
+            </div>
+
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Battery No</th>
+                        <th scope="col">Battery Type</th>
+                        <th scope="col">Total KM</th>
+                        <th scope="col">Total Days</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%if battery%}
+                    {% for battery in battery%}
+                    <tr>
+                        <th scope="row">{{battery.fitted_date}}</th>
+                        <td>{{battery.battery_no}}</td>
+                        <td>{{battery.type}}</td>
+                        <td>{{battery.actual_km}}</td>
+                        <td>{{battery.battery_worked_days}}</td>
+                        <td>{{battery.amount}}</td>
+                    </tr>
+                    {%endfor%} 
+                    <th colspan="4" >
+                    <td style="color: brown;">Grand Total</td>
+                    <td>{{battery_amount}}</td>
+                    </th>
+                    {%else%}
+                    <tr class="container">
+                        <td colspan="3">No Records Found</td>
+                    </tr>
+                    {%endif%}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- tax -->
+        <div class="table-container" style="margin-top: 1.5em">
+            <div class="flex-box" style="display: flex; justify-content: space-between">
+                <h5 style="font-weight: 505; margin: 0.4em 0em">Tax Details</h5>
+                <button class="btn btn-secondry btn-sm"><a href="{% url 'tax_list' %}">Button</a></button>
+            </div>
+
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Tax No</th>
+                        <th scope="col">From Date</th>
+                        <th scope="col">To Date</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if tax %} 
+                    {% for tax in tax %}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{tax.tax_no}}</td>
+                        <td>{{tax.tax_from}}</td>
+                        <td>{{tax.tax_to}}</td>
+                        <td>{{tax.tax_amount}}</td>
+                    </tr>
+                    {%endfor%}
+                    <th colspan="3">
+                        <td style="color: brown;">Grand Total</td>
+                        <td>{{tax_amount}}</td>
+                    </th>
+                    {%else%}
+                    <tr class="container">
+                        <td colspan="3">No Records Found</td>
+                    </tr>
+                    {%endif%}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- insurance -->
+        <div class="table-container" style="margin-top: 1.5em">
+            <div class="flex-box" style="display: flex; justify-content: space-between">
+                <h5 style="font-weight: 505; margin: 0.4em 0em">Insurance Details</h5>
+                <button class="btn btn-secondry btn-sm"><a href="{% url 'insurance_list' %}">Button</a></button>
+            </div>
+
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Company Name</th>
+                        <th scope="col">Insurance No.</th>
+                        <th scope="col">From Date</th>
+                        <th scope="col">To Date</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%if insurance %}
+                    {% for insurance in insurance %}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{insurance.company_name}}</td>
+                        <td>{{insurance.insurance_no}}</td>
+                        <td>{{insurance.insurance_from}}</td>
+                        <td>{{insurance.insurance_to}}</td>
+                        <td>{{insurance.insurance_amount}}</td>
+                    </tr>
+                    {%endfor%}
+                    <th colspan="4">
+                        <td style="color: brown;">Grand Total</td>
+                        <td>{{insurance_amount}}</td>
+                    </th>
+                    {%else%}
+                    <tr class="container">
+                        <td colspan="3">No Records Found</td>
+                    </tr>
+                    {%endif%}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- fitness -->
+        <div class="table-container" style="margin-top: 1.5em">
+            <div class="flex-box" style="display: flex; justify-content: space-between">
+                <h5 style="font-weight: 505; margin: 0.4em 0em">Fitness Certificate Details</h5>
+                <button class="btn btn-secondry btn-sm"><a href="{% url 'fitness_list' %}">Button</a></button>
+            </div>
+
+            <table class="table table-dark" style="margin-top: 1em">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Fitness No</th>
+                        <th scope="col">From Date</th>
+                        <th scope="col">To Date</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if fitness %} 
+                    {% for fitness in fitness%}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{fitness.fc_no}}</td>
+                        <td>{{fitness.fc_from}}</td>
+                        <td>{{fitness.fc_to}}</td>
+                        <td>{{fitness.fc_amount}}</td>
+                    </tr>
+                    {%endfor%} 
+                    <th colspan="3">
+                        <td style="color: brown;">Grand Total</td>
+                        <td>{{fitness_amount}}</td>
+                    </th>
+                    {%else%}
+                    <tr class="container">
+                        <td colspan="3">No Records Found</td>
+                    </tr>
+                    {%endif%}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- permit -->
+        <div class="table-container" style="margin-top: 1.5em">
+            <div class="flex-box" style="display: flex; justify-content: space-between">
+                <h5 style="font-weight: 505; margin: 0.4em 0em">Permit Details</h5>
+                <button class="btn btn-secondry btn-sm"><a href="{% url 'permit_list' %}">Button</a></button>
+            </div>
+
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Permit No</th>
+                        <th scope="col">From Date</th>
+                        <th scope="col">To Date</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%if permit %}
+                    {% for permit in permit%}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{permit.permit_no}}</td>
+                        <td>{{permit.permit_from}}</td>
+                        <td>{{permit.permit_to}}</td>
+                        <td>{{permit.permit_amount}}</td>
+                    </tr>
+                    {%endfor%}
+                    <th colspan="3">
+                        <td style="color: brown;">Grand Total</td>
+                        <td>{{permit_amount}}</td>
+                    </th>
+                    {%else%}
+                    <tr class="container">
+                        <td colspan="3">No Records Found</td>
+                    </tr>
+                    {%endif%}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- emission -->
+        <div class="table-container" style="margin-top: 1.5em">
+            <div class="flex-box" style="display: flex; justify-content: space-between">
+                <h5 style="font-weight: 505; margin: 0.4em 0em">Emission Details</h5>
+                <button class="btn btn-secondry btn-sm"><a href="{% url 'emission_list' %}">Button</a></button>
+            </div>
+
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Emission No</th>
+                        <th scope="col">From Date</th>
+                        <th scope="col">To Date</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%if emission %}
+                    {% for emission in emission%}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{emission.emission_no}}</td>
+                        <td>{{emission.emission_from}}</td>
+                        <td>{{emission.emission_to}}</td>
+                        <td>{{emission.emission_amount}}</td>
+                    </tr>
+                    {%endfor%}
+                    <th colspan="3">
+                        <td style="color: brown;">Grand Total</td>
+                        <td>{{emission_amount}}</td>
+                    </th>
+                    {%else%}
+                    <tr class="container">
+                        <td colspan="3">No Records Found</td>
+                    </tr>
+                    {%endif%}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- repair -->
+        <div class="table-container" style="margin-top: 1em">
+            <div class="flex-box" style="display: flex; justify-content: space-between">
+                <h5 style="font-weight: 505; margin: 0.4em 0em">Repair Details</h5>
+                <button class="btn btn-secondry btn-sm"><a href="{% url 'repair_list' %}">Button</a></button>
+            </div>
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Vendor Name</th>
+                        <th scope="col">Repair Type</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%if repair %} 
+                    {% for repair in repair%}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{repair.date}}</td>
+                        <td>{{repair.vendor_name}}</td>
+                        <td>{{repair.repair_type}}</td>
+                        <td>{{repair.amount}}</td>
+                    </tr>
+                    {%endfor%}
+                    <th colspan="3">
+                        <td style="color: brown;">Grand Total</td>
+                        <td>{{repair_amount}}</td>
+                    </th>
+                    {%else%}
+                    <tr class="container">
+                        <td colspan="3">No Records Found</td>
+                    </tr>
+                    {%endif%}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- service -->
+        <div class="table-container" style="margin-top: 1em">
+            <div class="flex-box" style="display: flex; justify-content: space-between">
+                <h5 style="font-weight: 505; margin: 0.4em 0em">Spare Details</h5>
+                <button class="btn btn-secondry btn-sm"><a href="{% url 'service_list' %}">Button</a></button>
+            </div>
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Bill No</th>
+                        <th scope="col">Vendor Name</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%if spare %} 
+                    {% for spare in spare%}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{spare.date}}</td>
+                        <td>{{spare.bill_no}}</td>
+                        <td>{{spare.vendor_name}}</td>
+                        <td>{{spare.total}}</td>
+                    </tr>
+                    {%endfor%} 
+                    <th colspan="3">
+                        <td style="color: brown;">Grand Total</td>
+                        <td>{{spare_amount}}</td>
+                    {%else%}
+                    <tr class="container">
+                        <td colspan="3">No Records Found</td>
+                    </tr>
+                    {%endif%}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- other -->
+        <div class="table-container" style="margin-top: 1em">
+            <div class="flex-box" style="display: flex; justify-content: space-between">
+                <h5 style="font-weight: 505; margin: 0.4em 0em">Other Expense Details</h5>
+                <button class="btn btn-secondry btn-sm"><a href="{% url 'other_list' %}">Button</a></button>
+            </div>
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Bill No</th>
+                        <th scope="col">Vendor Name</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%if other%} {% for expense in other%}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{expense.date}}</td>
+                        <td>{{expense.bill_no}}</td>
+                        <td>{{expense.vendor_name}}</td>
+                        <td>{{expense.total}}</td>
+                    </tr>
+                    {%endfor%} 
+                    <th colspan="3">
+                        <td style="color: brown;">Grand Total</td>
+                        <td>{{other_amount}}</td>
+                    </th>
+                    {%else%}
+                    <tr class="container">
+                        <td colspan="3">No Records Found</td>
+                    </tr>
+                    {%endif%}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- scrap -->
+        <div class="table-container" style="margin-top: 1em">
+            <div class="flex-box" style="display: flex; justify-content: space-between">
+                <h5 style="font-weight: 505; margin: 0.4em 0em">Scrap Details</h5>
+                <button class="btn btn-secondry btn-sm"><a href="{% url 'scrap_list' %}">Button</a></button>
+            </div>
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Vendor Name</th>
+                        <th scope="col">Repair Type</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%if scrap%}
+                    {% for scrap in scrap%}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{scrap.date}}</td>
+                        <td>{{scrap.bill_no}}</td>
+                        <td>{{scrap.vendor_name}}</td>
+                        <td>{{scrap.total}}</td>
+                    </tr>
+                    {%endfor%}
+                    <th colspan="3">
+                        <td style="color: brown;">Grand Total</td>
+                        <td>{{scrap_amount}}</td>
+                    </th>
+                    {%else%}
+                    <tr class="container">
+                        <td colspan="3">No Records Found</td>
+                    </tr>
+                    {%endif%}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- student -->
+        <div class="table-container" style="margin-top: 1em">
+            <div class="flex-box" style="display: flex; justify-content: space-between">
+                <h5 style="font-weight: 505; margin: 0.4em 0em">Student Details</h5>
+                <button class="btn btn-secondry btn-sm"><a href="{% url 'student_list' %}">Button</a></button>
+            </div>
+
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">USN</th>
+                        <th scope="col">Total Amount</th>
+                        <th scope="col">Due Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%if student%}
+                    {% for student in student%}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{student.name}}</td>
+                        <td>{{student.usn}}</td>
+                        <td>{{student.total_amount}}</td>
+                        <td>{{student.due_amount}}</td>
+                    </tr>
+                    {%endfor%} {%else%}
+                    <tr class="container">
+                        <td colspan="3">No Records Found</td>
+                    </tr>
+                    {%endif%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}

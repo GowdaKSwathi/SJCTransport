@@ -1,0 +1,122 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Tyre Expense List{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div style="margin: 0px; padding: 0px;" class="col-s">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="calender">
+                                <input type="text" name="tyre_no" id="tyre_no" placeholder="Tyre Number">
+                                <input type="month" name="month" id="month" placeholder="Month">
+                                <input type="submit" name="submit" value="Search">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="invoice">
+        <div class="col-md-15">
+            <div id="invoice">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="box-title">Tyres Expenses List</h4>
+                    </div>
+                    <div class="card-body--">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th class="shrink">Tyre number</th>
+                                    <th class="shrink">Vehicle Number</th>
+                                    <th class="shrink">Tyre Version</th>
+                                    <th class="shrink">Rebelt Number</th>
+                                    <th class="shrink">Fitted Km</th>
+                                    <th class="shrink">Removal Km</th>
+                                    <th class="shrink">Actual Km</th>
+                                    <th class="shrink">Amount</th>
+                                    <th class="shrink">Actions</th>
+                                </tr>
+                            </thead>
+                            {% if tyre %}
+                            {% for tyre in tyre %}
+                            <tbody>
+                                <tr>
+                                    <th>{{forloop.counter}}</th>
+                                    <td><a href="{% url 'detail_tyre' tyre.id %}">{{ tyre.tyre_no }}</a></td>
+                                    <td>{{ tyre.vehicle.vehicle_no }}</td>
+                                    <td>{{ tyre.version }}</td>
+                                    <td>{{ tyre.rebelt_no }}</td>
+                                    <td>{{ tyre.fitted_km }}</td>
+                                    <td>{{ tyre.removal_km }}</td>
+                                    <td>{{ tyre.actual_km }}Km</td>
+                                    <td>{{ tyre.amount }}</td>
+                                    <td>
+                                        <a style="color: blue;" href="{% url 'tyre_edit' tyre.id %}"><i
+                                                class="fa fa-edit"></i></a>|
+                                        <a style="color: red;" href="{% url 'tyre_delete' tyre.id %}"><i
+                                                class="fa fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td colspan="12" class="text-center ">OOPS, Tyre Expense data not Found !</td>
+                            </tr>
+                            {% endif %}
+                        </table>
+                        {% if tyre %}
+                        {% if amount %}
+                        <th>
+                            <div class="row ">
+                                <div class="col-lg-8">
+                                </div>
+                                <div class="col-4">
+                                    <table class="table table-lg text-right">
+                                        <tr>
+                                            <td><strong>Total Km</strong></td>
+                                            <td style="color: rgb(99, 26, 26); width: 100px;">{{total_km}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Grand Total:</strong></td>
+                                            <td style="color: rgb(99, 26, 26); width: 100px;">{{amount}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </th>
+                        {% endif %}
+                        {% endif %}
+                    </div> <!-- /.table-stats -->
+                </div> <!-- /.card -->
+            </div> <!-- invoice -->
+        </div> <!-- /.col-lg-8 -->
+    </div>
+    <button class="btn" onclick="generatePDF()"><i class="fa fa-download"></i></button>
+</div>
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<script>
+    function generatePDF() {
+        var doc = new jsPDF('p', 'pt', 'a4');
+        doc.addHTML(document.getElementById('invoice'), function () {
+            doc.save('Tyre Expenses List.pdf');
+        });
+    }
+</script>
+{% endblock scripts %}
+{% endblock content %}

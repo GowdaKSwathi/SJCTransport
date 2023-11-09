@@ -1,0 +1,128 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Update Fuel Expenses{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="">Dashboard</a></li>
+                            <li><a href="">Fuel</a></li>
+                            <li class="active">Update</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- error message -->
+{% if error %}
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>{{ error }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+{% endif %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Update Fuel Expenses</strong>
+            </div>
+            <div class="card-body">
+                <!-- Credit Card -->
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="vehicle_no" class="control-label mb-1">Vehicle No</label>
+                                    <select class="form-control" name="vehicle" id="vehicle" readonly required />
+                                        <option value="{{ fuel.vehicle.id }}">{{ fuel.vehicle.vehicle_no }}</option>
+                                    </select>                                  
+                            </div>
+                            <div class="form-group">
+                                <label for="fuel_type" class="control-label mb-1">Fuel Type</label>
+                                <input class="form-control" type="text" name="fuel_type" id="fuel_type" value={{fuel.fuel_type}} readonly required />
+                            </div>
+                            <div class="form-group">
+                                <label for="vendor_name" class="control-label mb-1">Vendor Name</label>
+                                <input class="form-control" type="text" name="vendor_name" id="vendor_name" value={{fuel.vendor_name}} readonly required />
+                            </div>
+                            <div class="form-group">
+                                <label for="indent_no" class="control-label mb-1">Indent No</label>
+                                <input class="form-control" type="number" name="indent_no" id="indent_no" value={{fuel.indent_no}} readonly required />
+                            </div>
+                            <div class="form-group">
+                                <label for="bill_no" class="control-label mb-1">Bill No</label>
+                                <input class="form-control" type="text" name="bill_no" id="bill_no" value={{fuel.bill_no}} readonly />
+                            </div>
+                            <div class="form-group">
+                                <label for="quantity" class="control-label mb-1">Quantity (in ltr)</label>
+                                <input class="form-control" type="number" name="quantity" id="quantity" step="0.01" value={{fuel.quantity}} readonly required />
+                            </div>
+                            <div class="form-group">
+                                <label for="amount" class="control-label mb-1">Amount</label>
+                                <input class="form-control" type="number" name="amount" id="amount" step="0.01" value={{fuel.amount}} readonly required />
+                            </div>
+                            <div class="form-group" id="progressive_km">
+                                <label for="progressive_km" class="control-label mb-1">Previous Kms</label>
+                                <input class="form-control" type="number" name="previous_km" id="previous_km" value={{fuel.previous_km}} readonly required />
+                            </div>
+                            <div class="form-group">
+                                <label for="actual_km" class="control-label mb-1">Progressive Kms</label>
+                                <input class="form-control" type="number" name="progressive_km" id="progressive_km" value={{fuel.progressive_km}} required />
+                            </div>
+                            <div class="form-group">
+                                <label for="date" class="control-label mb-1">Date</label>
+                                <input class="form-control" type="text" name="date" id="date" value={{fuel.date|date:'Y-m-d'}} readonly required />
+                            </div>
+                            <div>
+                                <button id="payment-button" type="submit" class="btn btn-lg  btn-outline-primary btn-block">
+                                    <span id="payment-button-amount">Update</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- .card -->
+
+    </div>
+    <!--/.col-->
+</div>
+{% block script %}
+<script>
+    let vehicle = document.getElementById('vehicle');
+    vehicle.addEventListener('change', function () {
+        let vehicle_id = vehicle.value;
+        let url = '/get-vehicle/' + vehicle_id;
+        fetch(url)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                document.getElementById('previous_km').value = data.progressive_km;
+            })
+    })
+</script>
+{% endblock script %}
+{% endblock content %}

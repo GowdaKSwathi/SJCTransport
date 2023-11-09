@@ -1,0 +1,82 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Student List{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div style="margin: 0px; padding: 0px;" class="col-s">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="calender">
+                                <div class="calender">
+                                    <input type="text" name="usn" id="usn" placeholder="USNXXXX">
+                                    <input type="submit" name="submit" value="Search">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xl-12">
+        <div id="invoice">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="box-title">Student List</h4>
+                </div>
+                <div class="card-body--">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th class="shrink">USN</th>
+                                <th class="shrink">Student Name</th>
+                                <th class="shrink">Vehicle Number</th>
+                                <th class="shrink">Contact Number</th>
+                                <th class="shrink">Destination</th>
+                                <th class="shrink">Route Code</th>
+                                <th class="shrink">Due Amount</th>
+                                <th class="shrink">Actions</th>
+                            </tr>
+                        </thead>
+                        {% if student %}
+                        {% for student in student %}
+                        <tbody>
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td><a href="{% url 'detail_student' student.id %}">{{ student.usn }}</a></td>
+                                <td>{{ student.name }}</td>
+                                <td>{{ student.vehicle.vehicle_no }}</td>
+                                <td>{{ student.contact }}</td>
+                                <td>{{ student.destination }}</td>
+                                <td>{{ student.route_code }}</td>
+                                <td>{{ student.due_amount }}</td>
+                                <td>
+                                    <a style="color: blue;" href="{% url 'student_update' student.id %}" class="fa fa-pencil-square-o"></a>|
+                                    <a style="color: red;" href="{% url 'student_delete' student.id %}" class="fa fa-trash"></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="12" class="text-center ">OOPS,Student data not Found !</td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                </div> <!-- /.table-stats -->
+            </div> <!-- /.card -->
+        </div> <!-- invoice -->
+    </div> <!-- /.col-lg-8 -->
+</div>
+{% endblock content %}

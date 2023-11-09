@@ -1,0 +1,64 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Total Expense List{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="">Dashboard</a></li>
+                            <li><a href="">Principal</a></li>
+                            <li class="active">View</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xl-12">
+        <div id="invoice">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="box-title">Total Expenses List</h4>
+                </div>
+                <div class="card-body--">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="expend">#</th>
+                                <th class="shrink">Vehicle Number</th>
+                                <th class="shrink">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for total ,vehicle  in c %}
+                            <tr>
+                                <td class="expend">{{forloop.counter}}</td>
+                                <td class="shrink">{{vehicle}}</td>
+                                <td class="shrink">{{total}}</td>
+                            </tr>
+                            {{res}}
+                            {% endfor %}
+                    </table>
+                </div> <!-- /.table-stats -->
+            </div> <!-- /.card -->
+        </div> <!-- invoice -->
+    </div> <!-- /.col-lg-8 -->
+</div>
+{% endblock content %}

@@ -1,0 +1,79 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Faculty List{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div style="margin: 0px; padding: 0px;" class="col-s">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="calender">
+                                <div class="calender">
+                                    <input type="text" name="name" id="name" placeholder="Search Name Here..">
+                                    <input type="submit" name="submit" value="Search">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xl-12">
+        <div id="invoice">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="box-title">Faculty List</h4>
+                </div>
+                <div class="card-body--">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="shrink">#</th>
+                                <th class="shrink">Faculty Name</th>
+                                <th class="shrink">Vehicle Number</th>
+                                <th class="shrink">Bus Name</th>
+                                <th class="shrink">Contact Number</th>
+                                <th class="shrink">Department</th>
+                                <th class="shrink">Route Code</th>
+                                <th class="shrink">Actions</th>
+                            </tr>
+                        </thead>
+                        {% if faculty %}
+                        {% for faculty in faculty %}
+                        <tbody>
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td><a href="{% url 'detail_faculty' faculty.id %}">{{ faculty.name }}</a></td>
+                                <td>{{ faculty.vehicle.vehicle_no }}</td>
+                                <td>{{ faculty.bus_name }}</td>
+                                <td>{{ faculty.contact }}</td>
+                                <td>{{ faculty.department }}</td>
+                                <td>{{ faculty.route_code }}</td>
+                                <td> 
+                                   <a style="color: red;" href="{% url 'faculty_delete' faculty.id %}" class="fa fa-trash"></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="12" class="text-center ">OOPS,Faculty data not Found !</td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                </div> <!-- /.table-stats -->
+            </div> <!-- /.card -->
+        </div> <!-- invoice -->
+    </div> <!-- /.col-lg-8 -->
+</div>
+{% endblock content %}

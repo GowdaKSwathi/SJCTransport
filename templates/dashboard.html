@@ -1,0 +1,146 @@
+{% extends 'base/base.html' %} {% block title %}Dashboard{% endblock title %}
+{%block content %}
+<!-- Widgets  -->
+<div class="row">
+  <div class="col-lg-3 col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <div class="stat-widget-five">
+          <div class="stat-icon dib flat-color-1">
+            <i class="fa fa-bus"></i>
+          </div>
+          <div class="stat-content">
+            <div class="text-left dib">
+              <div class="stat-text">
+                <span class="count">{{ total }}</span>
+              </div>
+              <div class="stat-heading">vehicle</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-3 col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <div class="stat-widget-five">
+          <div class="stat-icon dib flat-color-2">
+            <i class="fa fa-wheelchair-alt"></i>
+          </div>
+          <div class="stat-content">
+            <div class="text-left dib">
+              <div class="stat-text"><span class="count">{{ driver }}</span></div>
+              <div class="stat-heading">Driver</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-3 col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <div class="stat-widget-five">
+          <div class="stat-icon dib flat-color-3">
+            <i class="fa fa-user-circle"></i>
+          </div>
+          <div class="stat-content">
+            <div class="text-left dib">
+              <div class="stat-text">
+                <span class="count">{{ staff }}</span>
+              </div>
+              <div class="stat-heading">Staff</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-3 col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <div class="stat-widget-five">
+          <div class="stat-icon dib flat-color-4">
+            <i class="fa fa-graduation-cap"></i>
+          </div>
+          <div class="stat-content">
+            <div class="text-left dib">
+              <div class="stat-text">
+                <span class="count">{{student}}</span>
+              </div>
+              <div class="stat-heading">Student</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Widgets -->
+<!-- body -->
+<div class="clearfix">
+  <div class="vehicle">
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="box-title">Vehicle List</h4>
+          </div>
+          <div class="card-body--">
+            <div class="table-stats vehicle-table ov-h">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="serial">#</th>
+                    <th>Vehicle number</th>
+                    <th>Vehicle Type</th>
+                    <th>Registered Owner Name</th>
+                    <th>Engine number</th>
+                    <th>Chassis number</th>
+                    <th>Fuel Type</th>
+                    <th>Fuel Tank Capacity</th>
+                    <th>Vehicle Make</th>
+                    <th>Target KMPL</th>
+                    <th>Registered Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% if vehicle %}
+                  {% for vehicle in vehicle %}
+                  <tr>
+                    <td class="serial">{{ forloop.counter }}</td>
+                    <td><a style="color: rgb(4, 4, 114); text-shadow: 0ex;"
+                        href="{% url 'detail_vehicle' vehicle.id %}">{{ vehicle.vehicle_no }}</a></td>
+                    <td>{{ vehicle.type }}</td>
+                    <td>{{ vehicle.owner_name }}</td>
+                    <td>{{ vehicle.engine_no }}</td>
+                    <td>{{ vehicle.chasis_no }}</td>
+                    <td>{{ vehicle.fuel_type }}</td>
+                    <td>{{ vehicle.fuel_capacity }}</td>
+                    <td>{{ vehicle.make }}</td>
+                    <td>{{ vehicle.target_kmpl }}</td>
+                    <td>{{ vehicle.registration_date|date:'d-m-y' }}</td>
+                  </tr>
+                  {% endfor %} {% else %}
+                  <tr>
+                    <td colspan="12">No Vehicle Found</td>
+                  </tr>
+                  {% endif %}
+                </tbody>
+              </table>
+            </div>
+            <!-- /.table-stats -->
+          </div>
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col-lg-8 -->
+    </div>
+  </div>
+</div>
+<!-- /.vehicle -->
+{% endblock content %}

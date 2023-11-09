@@ -1,0 +1,231 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Invoice{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div style="margin: 0px; padding: 0px;" class="col-s">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="calender">
+                                <input type="text" name="vehicle" id="vehicle" placeholder="KAXXMMXXXX">
+                                <input type="month" name="month" id="month">
+                                <input type="submit" name="submit" value="Search">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            Invoice,
+            <strong>{% now "D d M Y" %}</strong>
+            <span class="float-right" style="display: none;"> <strong>Status:</strong> Approved</span>
+
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-sm-6">
+                    <h6 class="mb-3">From:</h6>
+                    <div>
+                        <strong>SJCIT,Transport Department</strong><br>
+                        <strong style="color:#8377 ;">Invoice for {{vehicle}}</strong>
+                    </div>
+                    <div>P.B, No. 20</div>
+                    <div>BB Rd,Chikkaballapur,Karnataka 562101</div>
+                    <div>Email: sjc-transport@sjcit.ac.in </div>
+                    <div>Phone: +9481650808</div>
+                </div>
+
+                <div class="col-sm-6">
+                    <h6 class="mb-3">To:</h6>
+                    <div>
+                        <strong>Dr.G.T Raju</strong>
+                    </div>
+                    <div>SJCIT,Principal</div>
+                    <div>BB Rd,Chikkaballapur,Karnataka 562101</div>
+                    <div>Email: principal@sjcit.ac.in</div>
+                    <div>Phone:+919731292555, +919448308345
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive-sm">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="center">#</th>
+                            <th>Item</th>
+                            <th>Description</th>
+                            <th class="right">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="center">1</td>
+                            <td class="left strong">Fuel</td>
+                            <td class="left"><i class="fa fa-caret-right" aria-hidden="true"></i></td>
+                            <td class="right">{{fuel_amount}}</td>
+                        </tr>
+                        <tr>
+                            <td class="center">2</td>
+                            <td class="left strong">Lubricant</td>
+                            <td class="left"><i class="fa fa-caret-right" aria-hidden="true"></i></td>
+                            <td class="right">{{lubricant_amount}}</td>
+                        </tr>
+                        <tr>
+                            <td class="center">3</td>
+                            <td class="left strong">Tyre</td>
+                            <td class="left"><i class="fa fa-caret-right" aria-hidden="true"></i></td>
+                            <td class="right">{{tyre_amount}}</td>
+                        </tr>
+                        <tr>
+                            <td class="center">4</td>
+                            <td class="left">Battery</td>
+                            <td class="left"><i class="fa fa-caret-right" aria-hidden="true"></i></td>
+                            <td class="right">{{battery_amount}}</td>
+                        </tr>
+                        <tr>
+                            <td class="center">5</td>
+                            <td class="left strong">Spare</td>
+                            <td class="left"><i class="fa fa-caret-right" aria-hidden="true"></i></td>
+                            <td class="right">{{spare_amount}}</td>
+                        </tr>
+                        <tr>
+                            <td class="center">6</td>
+                            <td class="left">Other Expense</td>
+                            <td class="left"><i class="fa fa-caret-right" aria-hidden="true"></i></td>
+                            <td class="right">{{other_amount}}</td>
+                        </tr>
+                        <tr>
+                            <td class="center">7</td>
+                            <td class="left">Repair Expenses</td>
+                            <td class="left"><i class="fa fa-caret-right" aria-hidden="true"></i></td>
+                            <td class="right">{{repair_amount}}</td>
+                        </tr>
+                        <tr>
+                            <td class="center">8</td>
+                            <td class="left">Tax Expenses</td>
+                            <td class="left"><i class="fa fa-caret-right" aria-hidden="true"></i></td>
+                            <td class="right">{{tax_amount}}</td>
+                        </tr>
+                        <tr>
+                            <td class="center">9</td>
+                            <td class="left">Insurance Expenses</td>
+                            <td class="left"><i class="fa fa-caret-right" aria-hidden="true"></i></td>
+                            <td class="right">{{insurance_amount}}</td>
+                        </tr>
+                        <tr>
+                            <td class="center">10</td>
+                            <td class="left">Permit Expenses</td>
+                            <td class="left"><i class="fa fa-caret-right" aria-hidden="true"></i></td>
+                            <td class="right">{{permit_amount}}</td>
+                        </tr>
+                        <tr>
+                            <td class="center">11</td>
+                            <td class="left">Emission Expenses</td>
+                            <td class="left"><i class="fa fa-caret-right" aria-hidden="true"></i></td>
+                            <td class="right">{{emission_amount}}</td>
+                        </tr>
+                        <tr>
+                            <td class="center">12</td>
+                            <td class="left">FC Expenses</td>
+                            <td class="left"><i class="fa fa-caret-right" aria-hidden="true"></i></td>
+                            <td class="right">{{fitness_amount}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- check if user is not in staff group -->
+            <div class="row">
+                <div class="col-lg-4 col-sm-5">
+                    <form id="id_ajax_upload_form" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                {{form.signature}}
+                                <br>
+                                <button type="submit" class="btn btn-succes ">Upload</button>
+                                <div class="col-xs-12" style="margin: 10px;">
+                                    <div id="success-msg" style="display: none;">
+                                        <span>
+                                            <strong>Signature!</strong>Upload Successfully.</span>
+                                    </div>
+                                    <div id="error-msg" style="display: none;">
+                                        <span>
+                                            <strong>Error!</strong> Something went wrong.
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="col-lg-4 col-sm-5 ml-auto">
+                    <table class="table table-clear">
+                        <tbody>
+                            <tr>
+                                <td class="left">
+                                    <strong>Grand total</strong>
+                                </td>
+                                <td class="right">{{total}}&#8377;</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+    // form upload
+    $('#id_ajax_upload_form').submit(function (e) {
+        e.preventDefault();
+        $form = $(this)
+        var formData = new FormData(this);
+        $.ajax({
+            url: window.location.pathname,
+            type: 'POST',
+            data: formData,
+            success: function (response) {
+                $('.error').remove();
+                console.log(response)
+                if (response.error) {
+                    $.each(response.errors, function (name, error) {
+                        error = '<small class="text-muted error">' + error + '</small>'
+                        $form.find('[name=' + name + ']').after(error);
+                    })
+                }
+                else {
+                    $('#success-msg').show();
+                    $('.float-right').show();
+                    $('.float-right').css('color', 'red');
+                    $('#success-msg').css('color', 'green');
+                    $('#error-msg').hide();
+                }
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    });
+    // end
+</script>
+{% endblock scripts %}

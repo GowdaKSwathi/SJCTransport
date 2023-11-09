@@ -1,0 +1,145 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Create Student{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="#">Student</a></li>
+                            <li class="active">Create</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- error message -->
+{% if error %}
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>{{ error }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+{% endif %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Create Student</strong>
+            </div>
+            <div class="card-body">
+                <!-- Credit Card -->
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form action="" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="vehicle_no" class="control-label mb-1">Vehicle No</label>
+                                {{ form.vehicle }} {{form.vehicle.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Name</label>
+                                {{ form.name }} {{form.name.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="usn" class="control-label mb-1">USN</label>
+                                {{ form.usn }} {{form.usn.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="bus_name" class="control-label mb-1">Bus Name</label>
+                                {{ form.bus_name }} {{form.bus_name.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address" class="control-label mb-1">Address</label>
+                                {{ form.address }} {{form.address.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contact" class="control-label mb-1">Contact Number</label>
+                                {{ form.contact }} {{form.contact.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="semester" class="control-label mb-1">Semester</label>
+                                {{ form.semester }} {{form.semester.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="department" class="control-label mb-1">Department</label>
+                                {{ form.department }} {{form.department.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="destination" class="control-label mb-1">Destination</label>
+                                {{ form.destination }} {{form.destination.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="route_code" class="control-label mb-1">Route Code</label>
+                                {{ form.route_code }} {{form.route_code.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="total_amount" class="control-label mb-1">Total Amount</label>
+                                {{ form.total_amount }} {{form.total_amount.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="paid_amount" class="control-label mb-1">Paid Amount</label>
+                                {{ form.paid_amount }} {{form.paid_amount.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="enroll_date" class="control-label mb-1">Enrollment Date</label>
+                                {{ form.enroll_date }} {{form.enroll_date.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="releaving_date" class="control-label mb-1">Releaving Date</label>
+                                {{ form.releaving_date }} {{form.releaving_date.errors}}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="document" class="control-label mb-1">Documents</label>
+                                {{ form.document }} {{form.document.errors}}
+                            </div>
+                            <!-- button  -->
+                            <div>
+                                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                                    <span id="payment-button-amount">Submit</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- .card -->
+    </div>
+    <!--/.col-->
+</div>
+{% endblock content %}

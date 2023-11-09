@@ -1,0 +1,138 @@
+{% extends 'base/base.html' %}
+{% block title %}Vehicle Details{% endblock title %}
+{% block css %}
+<style>
+    .card-body-- {
+        padding: 0px;
+        margin-top: auto;
+    }
+    .table-bordered td, .table-bordered th {
+    border: 18px solid #dee2e6;
+}
+ .table-bordered th{
+    width: fit-content;
+    max-width: 0px;
+    white-space: nowrap;
+ }
+</style>
+{% endblock css %}
+<!-- breadcrumbs -->
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="">Dashboard</a></li>
+                            <li><a href="">Vehicle</a></li>
+                            <li class="active">Details</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+<!-- content -->
+{% block content %}
+<div class="container-fluid">
+    <div class="card" style="width: 100%;">
+        <div class="row">
+            <table class="table table-striped table-bordered">
+                <tbody>
+                    <tr>
+                        <th>1</th>
+                        <td style='font-weight: bold;'>Vehicle Number</td>
+                        <td style='font-weight: bold;'>{{ vehicle.vehicle_no }}</td>
+                    </tr>
+                    <tr>
+                        <th >2</th>
+                        <td>Vehicle Type</td>
+                        <td>{{ vehicle.type }}</td>
+                    </tr>
+                    <tr>
+                        <th>3</th>
+                        <td>Registered Owner Name</td>
+                        <td>{{ vehicle.owner_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>4</th>
+                        <td>Wheel base</td>
+                        <td>{{ vehicle.wheel_base }}</td>
+                    </tr>
+                    <tr>
+                        <th>5</th>
+                        <td>Engine Number</td>
+                        <td>{{ vehicle.engine_no }}</td>
+                    </tr>
+                    <tr>
+                        <th>6</th>
+                        <td>Chassis Number</td>
+                        <td>{{ vehicle.chasis_no }}</td>
+                    </tr>
+                    <tr>
+                        <th>7</th>
+                        <td>Body Type</td>
+                        <td>{{ vehicle.body_type }}</td>
+                    </tr>
+                    <tr>
+                        <th>8</th>
+                        <td>Fuel Type</td>
+                        <td>{{ vehicle.fuel_type }}</td>
+                    </tr>
+                    <tr>
+                        <th>9</th>
+                        <td>Fuel Capacity</td>
+                        <td>{{ vehicle.fuel_capacity }}</td>
+                    </tr>
+                    <tr>
+                        <th>10</th>
+                        <td>Make</td>
+                        <td>{{ vehicle.make }}</td>
+                    </tr>
+                    <tr>
+                        <th>11</th>
+                        <td>Seating Capacity</td>
+                        <td>{{ vehicle.seating_capacity }}</td>
+                    </tr>
+                    <tr>
+                        <th>12</th>
+                        <td>Unloaden Weight</td>
+                        <td>{{ vehicle.unloaden_weight }} Kgs</td>
+                    </tr>
+                    <tr>
+                        <th>13</th>
+                        <td>Registered loaden Weight</td>
+                        <td>{{ vehicle.loaden_weight }} Kgs</td>
+                    </tr>
+                    <tr>
+                        <th>14</th>
+                        <td>Tyre Size</td>
+                        <td>{{ vehicle.tyre_size }}</td>
+                    </tr>
+                    <tr>
+                        <th>15</th>
+                        <td>Registered Date</td>
+                        <td>{{ vehicle.registration_date|date:'d-m-y'}}</td>
+                    </tr>
+                    <tr>
+                        <th>16</th>
+                        <td>Target KMPL</td>
+                        <td>{{ vehicle.target_kmpl }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}

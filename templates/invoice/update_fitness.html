@@ -1,0 +1,98 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Update Fitness Certificate Expenses{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="">Dashboard</a></li>
+                            <li><a href="">Fitness</a></li>
+                            <li class="active">Update</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- error message -->
+{% if error %}
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>{{ error }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+{% endif %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Update Fitness Certificate Expenses</strong>
+            </div>
+            <div class="card-body">
+                <!-- Credit Card -->
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form action="" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="vehicle_no" class="control-label mb-1">Vehicle No</label>
+                                {{ form.vehicle }}
+                            </div>
+                            <div class="form-group">
+                                <label for="fc_no" class="control-label mb-1">Fitness Certificate Number</label>
+                                {{ form.fc_no }} {{ form.fc_no.errors }}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="fc_amount" class="control-label mb-1">Fitness Certificate Amount</label>
+                                {{ form.fc_amount }} {{ form.fc_amount.errors }}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="fc_from" class="control-label mb-1">Fitness Certificate From Date</label>
+                                {{ form.fc_from }} {{ form.fc_from.errors }}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="fc_to" class="control-label mb-1">Fitness Certificate To Date</label>
+                                {{ form.fc_to }} {{ form.fc_to.errors }}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="fc_document" class="control-label mb-1">Fitness Certificate Documents</label>
+                                {{ form.fc_document }} {{ form.fc_document.errors }}
+                            </div>
+                            <!-- button  -->
+                            <div>
+                                <button id="payment-button" type="submit" class="btn btn-lg  btn-outline-primary btn-block">
+                                    <span id="payment-button-amount">Update</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

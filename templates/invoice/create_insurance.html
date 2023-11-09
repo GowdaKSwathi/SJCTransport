@@ -1,0 +1,103 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Create Insurance Expenses{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="">Dashboard</a></li>
+                            <li><a href="">Insurance</a></li>
+                            <li class="active">Create</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- error message -->
+{% if error %}
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>{{ error }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+{% endif %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Create Insurance Expenses</strong>
+            </div>
+            <div class="card-body">
+                <!-- Credit Card -->
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form action="" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="vehicle_no" class="control-label mb-1">Vehicle No</label>
+                                {{ form.vehicle }}
+                            </div>
+                            <div class="form-group">
+                                <label for="insurance_no" class="control-label mb-1">Insurance Number</label>
+                                {{ form.insurance_no }} {{ form.insurance_no.errors }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="company_name" class="control-label mb-1">Company Name</label>
+                                {{ form.company_name }} {{ form.company_name.errors }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="insurance_amount" class="control-label mb-1">Insurance Amount</label>
+                                {{ form.insurance_amount }} {{ form.insurance_amount.errors }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="insurance_from" class="control-label mb-1">Insurance From Date</label>
+                                {{ form.insurance_from }} {{ form.insurance_from.errors }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="insurance_to" class="control-label mb-1">Insurance To Date</label>
+                                {{ form.insurance_to }} {{ form.insurance_to.errors }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="insurance_document" class="control-label mb-1">Insurance Documents</label>
+                                {{ form.insurance_document }} {{ form.insurance_document.errors }}
+                            </div>
+                            <!-- button  -->
+                            <div>
+                                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                                    <span id="payment-button-amount">Submit</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,168 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Create Battery Expense{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="">Dashboard</a></li>
+                            <li><a href="">Battery</a></li>
+                            <li class="active">Create</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- error message -->
+{% if error %}
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>{{ error }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+{% endif %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Create Battery Expenses</strong>
+            </div>
+            <div class="card-body">
+                <!-- Credit Card -->
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form action="" enctype="multipart/form-data" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="vehicle_no" class="control-label mb-1">Vehicle No</label>
+                                <select class="form-control" name="vehicle" id="vehicle" required />
+                                <option value="">Select Vehicle</option>
+                                {% for vehicle in vehicles %}
+                                <option value="{{ vehicle.id }}">{{ vehicle.vehicle_no }}</option>
+                                {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="battery_no" class="control-label mb-1">Battery Number</label>
+                                <input type="text" class="form-control" name="battery_no" id="battery_no" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="type" class="control-label mb-1">Battery Type</label>
+                                <select class="form-control" name="type" id="type" onclick="myFunc()" required />
+                                <option value="">Select Type</option>
+                                <option value="New">New</option>
+                                <option value="InterChange">InterChange</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="vendor_name" class="control-label mb-1">Vendor Name</label>
+                                <input type="text" class="form-control" name="vendor_name" id="vendor_name" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="make" class="control-label mb-1">Make</label>
+                                <input type="text" class="form-control" name="make" id="make" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="bill_no" class="control-label mb-1">Bill No</label>
+                                <input type="text" class="form-control" name="bill_no" id="bill_no" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cause_of_removal" class="control-label mb-1">Cause of removal</label>
+                                <textarea style="height: 93px;" name="cause_of_removal" class="form-control"
+                                    id="cause_of_removal" cols="10" rows="10"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="amount" class="control-label mb-1">Amount</label>
+                                <input type="number" class="form-control" name="amount" step="any" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="fitted_km" class="control-label mb-1">Fitted Km</label>
+                                <input type="number" class="form-control" name="fitted_km" id="fitted_km" step="any"
+                                    required />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="fitted_date" class="control-label mb-1">Fitted date</label>
+                                <input type="date" class="form-control" name="fitted_date" id="fitted_date" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="removal_km" class="control-label mb-1">Removal Km</label>
+                                <input type="number" class="form-control" name="removal_km" id="removal_km" step="any"
+                                    value="0.0" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="removal_date" class="control-label mb-1">Removal Date</label>
+                                <input type="date" class="form-control" name="removal_date" id="removal_date"
+                                    reqiured />
+                            </div>
+
+                            <div>
+                                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                                    <span id="payment-button-amount">Submit</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- .card -->
+    </div>
+    <!--/.col-->
+</div>
+{% block script %}
+<script>
+    let battery = document.getElementById('battery_no');
+    battery.addEventListener('change', function () {
+        let battery_no = battery.value;
+        let url = '/get-battery/' + battery_no;
+        fetch(url)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                document.getElementById('fitted_km').value = data.removal_km;
+            })
+    })
+    // Battery Type
+    let type = document.getElementById('type');
+    function myFunc() {
+        if (type.value == 'New') {
+            document.getElementById('fitted_km').value = 0.0;
+        } else {
+            document.getElementById('fitted_km').value = document.getElementById('fitted_km').value;
+        } 
+    }
+    myFunc();
+</script>
+{% endblock script %}
+{% endblock content %}

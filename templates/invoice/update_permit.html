@@ -1,0 +1,98 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Update Permit Expenses{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="">Dashboard</a></li>
+                            <li><a href="">Permit</a></li>
+                            <li class="active">Update</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- error message -->
+{% if error %}
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>{{ error }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+
+{% endif %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Update Permit Expenses</strong>
+            </div>
+            <div class="card-body">
+                <!-- Credit Card -->
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form action="" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="vehicle_no" class="control-label mb-1">Vehicle No</label>
+                                {{ form.vehicle }}
+                            </div>
+                            <div class="form-group">
+                                <label for="permit_no" class="control-label mb-1">Permit Number</label>
+                                {{ form.permit_no }} {{ form.permit_no.errors }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="permit_amount" class="control-label mb-1">Permit Amount</label>
+                                {{ form.permit_amount }} {{ form.permit_amount.errors }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="permit_from" class="control-label mb-1">Permit From Date</label>
+                                {{ form.permit_from }} {{ form.permit_from.errors }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="permit_to" class="control-label mb-1">Permit To Date</label>
+                                {{ form.permit_to }} {{ form.permit_to.errors }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="permit_document" class="control-label mb-1">Permit Documents</label>
+                                {{ form.permit_document }} {{ form.permit_document.errors }}
+                            </div>
+                            <!-- button  -->
+                            <div>
+                                <button id="payment-button" type="submit" class="btn btn-lg  btn-outline-primary btn-block">
+                                    <span id="payment-button-amount">Update</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

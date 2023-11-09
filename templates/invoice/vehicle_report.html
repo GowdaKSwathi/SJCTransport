@@ -1,0 +1,238 @@
+{% extends 'base/base.html' %}
+
+<!-- awd -->
+{% block title %} Full Reports {% endblock title%}
+<!-- sd -->
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <div class="breadcrumbs-inner">
+    <div class="row m-0">
+      <div class="col-sm-4">
+        <div class="page-header float-left">
+          <div class="page-title">
+            <h1>Dashboard</h1>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-8">
+        <div class="page-header float-right">
+          <div class="page-title">
+            <ol class="breadcrumb text-right">
+              <li><a href="#">Dashboard</a></li>
+              <li><a href="#">Report</a></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- error message -->
+{% if error %}
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>{{ error }}</strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+{% endif %} {% endblock breadcrumbs %} {% block content %}
+<div></div>
+<!-- helo -->
+<form action="/vehicle_report" method="post">
+  {%csrf_token%}
+  <div class="container" style="display: flex; align-items: end">
+    <div>
+      <label for="vehicle_no">Vehicle No</label>
+      <input
+        type="text"
+        class="form-control"
+        id="vehicle_no"
+        placeholder="K8ASAXX9"
+        name="vehicle_no"
+      />
+    </div>
+    <div style="margin-left: 1em">
+      <label for="exampleFormControlSelect1">Select Month</label>
+      <select class="form-control" id="month" name="month">
+        <option value="1">January</option>
+        <option value="2">February</option>
+        <option value="3">March</option>
+        <option value="4">April</option>
+        <option value="5">May</option>
+        <option value="6">June</option>
+        <option value="7">July</option>
+        <option value="8">August</option>
+        <option value="9">September</option>
+        <option value="10">October</option>
+        <option value="11">November</option>
+        <option value="12">December</option>
+      </select>
+    </div>
+    <div class="btn-container" style="margin-left: 1em">
+      <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+  </div>
+</form>
+
+<div
+  class="container"
+  style="background: white; padding: 1em; margin-top: 0.8em"
+>
+  <div class="table-container">
+    <h5 style="font-weight: 505; margin: 0.4em 0em">Fuel Details</h5>
+
+    <table class="table table-light">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Vehicle No</th>
+          <th scope="col">Fuel Type</th>
+          <th scope="col">Vendor Name</th>
+          <th scope="col">Bill No</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%if fuel_objs%} {% for fuel in fuel_objs%}
+        <tr>
+          <th scope="row">{{forloop.counter}}</th>
+          <td>{{fuel.vehicle.vehicle_no}}</td>
+          <td>{{fuel.fuel_type}}</td>
+          <td>{{fuel.vendor_name}}</td>
+          <td>{{fuel.bill_no}}</td>
+        </tr>
+        {% endfor %} {%else%} Not Found {%endif%}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-container" style="margin-top: 1em">
+    <h5 style="font-weight: 505; margin: 0.4em 0em">Tyres</h5>
+
+    <table class="table table-light">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Vehicle No</th>
+          <th scope="col">Scrap Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%for tyre in tyre_objs%}
+        <tr>
+          <th scope="row">1</th>
+          <td>{{tyre.vehicle.vehicle_no}}</td>
+          <td>{{tyre.scrap}}</td>
+        </tr>
+        {%endfor%}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-container" style="margin-top: 1em">
+    <h5 style="font-weight: 505; margin: 0.4em 0em">Lubricant Details</h5>
+
+    <table class="table table-light">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Vehicle No</th>
+          <th scope="col">Oil Type</th>
+          <th scope="col">Supplier Name</th>
+          <th scope="col">Bill No</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for lubricant in lubricant_objs%}
+        <tr>
+          <th scope="row">1</th>
+          <td>{{lubricant.vehicle.vehicle_no}}</td>
+          <td>{{lubricant.oil_type}}</td>
+          <td>{{lubricant.supplier_name}}</td>
+          <td>{{lubricant.bill_no}}</td>
+        </tr>
+        {%endfor%}
+      </tbody>
+    </table>
+  </div>
+  <div class="table-container" style="margin-top: 1em">
+    <h5 style="font-weight: 505; margin: 0.4em 0em">Battery Details</h5>
+
+    <table class="table table-light">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Battery Type</th>
+          <th scope="col">Vendor Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for battery in battery_objs%}
+        <tr>
+          <th scope="row">1</th>
+          <td>{{battery.type}}</td>
+          <td>{{battery.vendor_name}}</td>
+        </tr>
+        {%endfor%}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="logsheet-container" style="background: white; padding: 1em">
+  <div class="table-container">
+    <h5 style="font-weight: 505; margin: 0.4em 0em">Logsheet Details</h5>
+
+    {%for date,entries in logsheet_objs.items%}
+    <table class="table table-light">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Vehicle No</th>
+          <th scope="col">Docking KM</th>
+          <th scope="col">Total KM</th>
+          <th scope="col" colspan="2">Daily KM</th>
+          <th scope="col" colspan="3">Date</th>
+        </tr>
+
+        <tr>
+          <td scope="col">1</td>
+          <td scope="col">{{entries.0.log.vehicle.vehicle_no}}</td>
+          <td scope="col">{{entries.0.log.doeking_km}}</td>
+          <td scope="col">{{entries.0.log.total_km}}</td>
+          <td scope="col" colspan="2">164</td>
+          <td scope="col" colspan="2">{{date}}</td>
+        </tr>
+
+        <tr>
+          <th scope="col">Trip No</th>
+          <th scope="col">Driver Name</th>
+          <th scope="col">Dest. From</th>
+          <th scope="col">Dest. To</th>
+          <th scope="col">Time From</th>
+          <th scope="col">Time To</th>
+          <th scope="col">Source</th>
+          <th scope="col">Destination</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for entry in entries%}
+        <tr>
+          <td scope="col">{{entry.trip}}</td>
+          <td scope="col">{{entry.driver.name}}</td>
+          <td scope="col">{{entry.distance_from}}</td>
+          <td scope="col">{{entry.distance_to}}</td>
+          <td scope="col">{{entry.time_from}}</td>
+          <td scope="col">{{entry.time_to}}</td>
+          <td scope="col">{{entry.source}}</td>
+          <td scope="col">{{entry.destination}}</td>
+        </tr>
+        {%endfor%}
+      </tbody>
+    </table>
+    {%endfor%}
+  </div>
+</div>
+
+{% endblock content %}

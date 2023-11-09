@@ -1,0 +1,18 @@
+[Unit]
+Description=Daphne service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/TransportWeb
+ExecStart=/home/TransportWeb/venv/bin/python /home/TransportWeb/venv/bin/daphne -b 0.0.0.0 -p 8001 transportproject.asgi:application
+Restart=always
+StartLimitBurst=2
+
+#StartLimitInterval=600
+# Restart, but not more than once every 30s (for testing purposes)
+StartLimitInterval=30
+
+[Install]
+WantedBy=multi-user.target

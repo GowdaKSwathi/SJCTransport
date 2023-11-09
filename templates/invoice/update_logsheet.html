@@ -1,0 +1,259 @@
+{% extends 'base/base.html' %}
+{% block title %}Update Logsheet{% endblock title %}
+
+{% block css %}
+<style>
+  .form-control input {
+    width: 100%;
+  }
+</style>
+{% endblock css %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <div class="breadcrumbs-inner">
+    <div class="row m-0">
+      <div class="col-sm-4">
+        <div class="page-header float-left">
+          <div class="page-title">
+            <h1>Dashboard</h1>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-8">
+        <div class="page-header float-right">
+          <div class="page-title">
+            <ol class="breadcrumb text-right">
+              <li><a href="">Dashboard</a></li>
+              <li><a href="">Logsheet</a></li>
+              <li class="active">Update</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- error message -->
+{% if error %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>{{ error }}</strong>
+  <strong>{{ form.non_field_errors }}</strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+{% endblock breadcrumbs %}
+<!-- main body -->
+{% block content %}
+<div class="container mt-3  mb-4">
+  <form action="" method="post">
+    {% csrf_token %}
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th colspan="19">
+            <div class="row mt-9 ">
+              <div class="d-flex justify-content-evenly">
+                <div class="col-md-2 style-text">SJCIT Transport</div>
+                <div class="col-md-7 d-flex">
+                  <label for="inputtext" class="col-md-3 col-form-label ">Vehicle No:</label>
+                  <div class="col-md-8">
+                    <select class="form-control" name="vehicle" id="vehicle" readonly required />
+                    <option value="{{ log.vehicle.id }}">{{ log.vehicle.vehicle_no }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-5 d-flex">
+                  <label for="inputdate" class="col-md-3 col-form-label ">Date:</label>
+                  <div class="col-md-8">
+                    <input type="date" class="form-control" id="date" name="date" value={{log.date_time |date:'Y-m-d' }} readonly required />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th rowspan="2" class="text-center">No</th>
+          <th colspan="2" class="text-center">Distance</th>
+          <th colspan="2" class="text-center">Time</th>
+          <th colspan="2" class="text-center">Address</th>
+          <th rowspan="2" class="text-center">Driver</th>
+          <th rowspan="2" class="text-center">Actions</th>
+        </tr>
+        <tr>
+          <th class="text-center">From</th>
+          <th class="text-center">To</th>
+          <th class="text-center">Start</th>
+          <th class="text-center">End</th>
+          <th class="text-center">Source</th>
+          <th class="text-center">Destination</th>
+        </tr>
+      </tbody>
+      {% for logsheet in log.logsheets.all %}
+      <tbody id="main">
+        <tr>
+          <td class="text-center">
+            <input type="number" class="form-control" name="trip" value={{logsheet.trip}}
+              style="height: 40px; width:50px;" readonly required />
+          </td>
+          <td class="text-center">
+            <input type="number" class="form-control" id="distance_from" name="distance_from"
+              value={{logsheet.distance_from}} style="height: 40px; width:90px;" readonly required />
+          </td>
+          <td class="text-center">
+            <input type="number" class="form-control" id="distance_to" name="distance_to" value={{logsheet.distance_to}}
+              style="height: 40px; width:90px;" readonly required />
+          </td>
+          <!-- start time -->
+          <td class="text-center">
+            <input type="time" class="form-control" id="start_time" name="time_from"
+              value={{logsheet.time_from|time:"H:i"}} onclick="checkers()" readonly required />
+          </td>
+          <td class="text-center">
+            <input type="time" class="form-control" id="end_time" name="time_to" value={{logsheet.time_to|time:"H:i"}}
+              readonly required />
+          </td>
+          <!-- end time -->
+          <td class="text-center">
+            <input type="text" class="form-control" id="source" name="source" value={{logsheet.source}}
+              style="height: 40px; width:90px;" readonly required />
+          </td>
+          <td class="text-center">
+            <input type="text" class="form-control" id="destination" name="destination" value={{logsheet.destination}}
+              style="height: 40px; width:90px;" readonly required />
+          </td>
+          <td class="text-center">
+            <select class="form-control" name="driver" id="driver" style="height: 40px; width:180px;" readonly
+              required />
+            <option value="{{ logsheet.driver.id }}">{{ logsheet.driver.name }}</option>
+            </select>
+          </td>
+          <td class="text-center">
+            <button type="button" onclick="addmore()" class="btn btn-outline-success">Add</button>
+          </td>
+        </tr>
+      </tbody>
+      {% endfor %}
+      <!-- by js -->
+      <tbody id="moredetails">
+        <!-- by js -->
+      </tbody>
+    </table>
+    <div>
+      <button id="payment-button" type="submit" class="btn btn-lg  btn-outline-primary btn-block">
+        <span id="payment-button-amount">Update</span>
+      </button>
+    </div>
+  </form>
+</div>
+{% block scripts %}
+<script>
+  res = 0;
+  function addmore() {
+    var element = document.getElementById("moredetails");
+    var html = `
+    <tr>
+      <td class="text-center">
+        <input type="number" class="form-control" name="trip" id="trip" style="height: 40px; width:50px;" required />
+      </td>
+      <td class="text-center">
+        <input type="number" class="form-control" id="distance_from" name="distance_from" style="height: 40px; width:90px;" required />
+      </td>
+      <td class="text-center">
+        <input type="number" class="form-control" id="distance_to" name="distance_to" style="height: 40px; width:90px;" required />
+      </td>
+      <td class="text-center">
+        <input type="time" class="form-control" id="more_start_time" name="time_from" required />
+      </td>
+      <td class="text-center">
+        <input type="time" class="form-control" id="more_end_time" name="time_to" onclick="checkers()" required />
+      </td>
+      <td class="text-center">
+        <input type="text" class="form-control" id="source" name="source" style="height: 40px; width:90px;" required />
+      </td>
+      <td class="text-center">
+        <input type="text" class="form-control" id="destination" name="destination" style="height: 40px; width:90px;" required />
+      </td>
+      <td class="text-center">
+          <select class="form-control" name="driver" id="driver" style="height: 40px; width:180px;" required />
+                <option value="">Select Driver</option>
+                {% for driver in drivers %}
+                <option value="{{driver.id}}">{{ driver.name }}</option>
+                {% endfor %}
+          </select>
+      </td>
+      <td class="text-center">
+        <button type="button" onclick="remove(this)" class="btn btn-outline-danger">Clear</button>
+      </td>`;
+    element.insertAdjacentHTML('beforeend', html);
+    res++;
+  }
+
+  function remove(e) {
+    e.parentNode.parentNode.remove();
+  }
+  // on click inputbox start and end time check and show red color  for more details
+  function checkTime() {
+    var start_time = document.getElementById("start_time").value;
+    var end_time = document.getElementById("end_time").value;
+    var button = document.getElementById("payment-button");
+    start_time = new Date("01/01/2007 " + start_time);
+    end_time = new Date("01/01/2007 " + end_time);
+
+    if (end_time < start_time) {
+      document.getElementById("end_time").style.borderColor = "red";
+      button.disabled = true;
+    } else {
+      document.getElementById("end_time").style.borderColor = "green";
+      button.disabled = false;
+    }
+  }
+
+  function moreCheckTime() {
+    var start_time = document.getElementById("start_time").value;
+    var end_time = document.getElementById("end_time").value;
+    var more_start_time = document.getElementById("more_start_time").value;
+    var more_end_time = document.getElementById("more_end_time").value;
+    var submit = document.getElementById("payment-button");
+    start_time = new Date("01/01/2007 " + start_time);
+    end_time = new Date("01/01/2007 " + end_time);
+    more_start_time = new Date("01/01/2007 " + more_start_time);
+    more_end_time = new Date("01/01/2007 " + more_end_time);
+
+    if (end_time < start_time) {
+      document.getElementById("end_time").style.borderColor = "red";
+    } else {
+      document.getElementById("end_time").style.borderColor = "green";
+      if (more_end_time < more_start_time) {
+        document.getElementById("more_end_time").style.borderColor = "red";
+      } else {
+        document.getElementById("more_end_time").style.borderColor = "green";
+      }
+      if (more_start_time < end_time) {
+        document.getElementById("more_start_time").style.borderColor = "red";
+      } else {
+        document.getElementById("more_start_time").style.borderColor = "green";
+      }
+    }
+    if (more_end_time < more_start_time) {
+      document.getElementById("more_end_time").style.borderColor = "red";
+    } else {
+      document.getElementById("more_end_time").style.borderColor = "green";
+    }
+  }
+
+
+  // combine checktime and morechecktime
+  function checkers() {
+    checkTime();
+    moreCheckTime();
+  }
+</script>
+{% endblock scripts %}
+
+{% endblock content %}

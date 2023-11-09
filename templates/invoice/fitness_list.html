@@ -1,0 +1,115 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Fitness Certificate Expenses List{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div style="margin: 0px; padding: 0px;" class="col-s">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="calender">
+                                <input type="text" name="vehicle" id="vehicle" placeholder="KAXXMMXXXX">
+                                <input type="month" name="month" id="month" placeholder="Month">
+                                <input type="submit" name="submit" value="Search">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="clearfix">
+    <div class="vehicle">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="box-title">Fitness Certificate Expenses</h4>
+                    </div>
+                    <div class="card-body--">
+                        <div class="table-stats vehicle-table ov-h">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="serial">#</th>
+                                        <th>Vehicle number</th>
+                                        <th>FC Number</th>
+                                        <th>Start FC Date</th>
+                                        <th>Expire FC Date</th>
+                                        <th>Amount</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if fitness %}
+                                    {% for data in fitness %}
+                                    <tr>
+                                        <td>{{forloop.counter}}</td>
+                                        <td>{{data.vehicle.vehicle_no}}</td>
+                                        <td>{{data.fc_no}}</td>
+                                        <td>{{data.fc_from}}</td>
+                                        <td>{{data.fc_to}}</td>
+                                        <td>{{data.fc_amount}}</td>
+                                        <td>
+                                            <a style="color: blue;" href="{% url 'update_fitness' data.id %}"
+                                                class="fa fa-pencil-square-o"></a>|
+                                            <a style="color: red;" href="{% url 'delete_fitness' data.id %}"
+                                                class="fa fa-trash"></a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="12" class="text-center ">OOPS,Fitness Certificate data not Found !
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                            {% if fitness %}
+                            {% if amount %}
+                            <th>
+                                <div class="row ">
+                                    <div class="col-lg-8">
+                                    </div>
+                                    <div class="col-4">
+                                        <table class="table table-lg text-right">
+                                            <tr>
+                                                <td><strong>Grand Total:</strong></td>
+                                                <td style="color: rgb(99, 26, 26); width: 100px;">{{amount}}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </th>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn" onclick="generatePDF()"><i class="fa fa-download"></i></button>
+</div>
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<script>
+    function generatePDF() {
+        var doc = new jsPDF('p', 'pt', 'a4');
+        doc.addHTML(document.getElementById('vehicle'), function () {
+            doc.save('Fitness Expenses List.pdf');
+        });
+    }
+</script>
+{% endblock scripts %}
+{% endblock content %}

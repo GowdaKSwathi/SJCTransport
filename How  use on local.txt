@@ -1,0 +1,27 @@
+1.create an env
+
+2. pip install -r requirements.txt
+
+3. python manage.py makemigrations
+
+4. python manage.py migrate
+
+5. python manage.py createsuperuser
+
+6. python manage.py runserver
+
+# use celery worker
+
+7. celery -A transportproject.celery worker -l info (linux)
+
+8. celery -A transportproject.celery worker --pool=solo -l info
+
+# fro celery beat
+8. celery -A transportproject beat -l INFO
+
+
+
+
+
+
+
